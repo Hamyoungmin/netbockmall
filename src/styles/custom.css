@@ -1,0 +1,66 @@
+/* 커스텀 스타일 파일 */
+
+/* 버튼 스타일 */
+.btn-primary {
+  @apply px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium;
+}
+
+.btn-secondary {
+  @apply px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors duration-200 font-medium;
+}
+
+.btn-danger {
+  @apply px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 font-medium;
+}
+
+/* 카드 스타일 */
+.card {
+  @apply bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-200;
+}
+
+/* 입력 필드 스타일 */
+.input-field {
+  @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+}
+
+/* 컨테이너 스타일 */
+.container-custom {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* 헤더 스타일 */
+.header-title {
+  @apply text-3xl font-bold text-gray-900 mb-2;
+}
+
+.header-subtitle {
+  @apply text-lg text-gray-600;
+}
+
+/* 상품 그리드 */
+.product-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6;
+}
+
+/* 로딩 애니메이션 */
+.loading-spinner {
+  @apply animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full;
+}
+
+/* 배지 */
+.badge {
+  @apply inline-block px-3 py-1 text-sm font-semibold rounded-full;
+}
+
+.badge-success {
+  @apply badge bg-green-100 text-green-800;
+}
+
+.badge-warning {
+  @apply badge bg-yellow-100 text-yellow-800;
+}
+
+.badge-error {
+  @apply badge bg-red-100 text-red-800;
+}
+
