@@ -8,14 +8,14 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-12">
             <div className="flex items-center space-x-8">
-              <div className="text-xl font-bold">넷북몰</div>
+              <a href="/" className="text-xl font-bold hover:text-gray-600 transition">넷북몰</a>
               <div className="hidden md:flex space-x-6 text-sm">
-                <a href="#" className="hover:text-gray-600 transition">스토어</a>
-                <a href="#" className="hover:text-gray-600 transition">맥북</a>
-                <a href="#" className="hover:text-gray-600 transition">노트북</a>
-                <a href="#" className="hover:text-gray-600 transition">태블릿</a>
-                <a href="#" className="hover:text-gray-600 transition">악세서리</a>
-                <a href="#" className="hover:text-gray-600 transition">고객지원</a>
+                <a href="/store" className="hover:text-gray-600 transition">스토어</a>
+                <a href="/macbook" className="hover:text-gray-600 transition">맥북</a>
+                <a href="/notebook" className="hover:text-gray-600 transition">노트북</a>
+                <a href="/tablet" className="hover:text-gray-600 transition">태블릿</a>
+                <a href="/accessories" className="hover:text-gray-600 transition">악세서리</a>
+                <a href="/support" className="hover:text-gray-600 transition">고객지원</a>
               </div>
             </div>
             <div className="flex items-center space-x-4">
@@ -29,6 +29,11 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                 </svg>
               </button>
+              <a href="/login" className="hover:text-gray-600">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </a>
             </div>
           </div>
         </div>
@@ -232,8 +237,13 @@ export default function Home() {
             <p className="text-sm text-gray-600 mb-6">
               교육 할인가로 맥, 태블릿 등 제품을 최대 20% 할인된 가격에 만나보세요.
             </p>
-            <div className="aspect-video bg-white rounded-2xl flex items-center justify-center">
-              <div className="text-4xl">🎓</div>
+            <div className="h-80 bg-white rounded-2xl flex items-center justify-center overflow-hidden relative">
+              <Image
+                src="/Rectangle 52.png"
+                alt="특별할인"
+                fill
+                className="object-contain"
+              />
             </div>
           </div>
           
@@ -242,8 +252,13 @@ export default function Home() {
             <p className="text-sm text-gray-300 mb-6">
               맥의 성능, 결제 옵션 등을 상담 받고 맞춤형 견적을 받아보세요.
             </p>
-            <div className="aspect-video bg-gray-900 rounded-2xl flex items-center justify-center">
-              <div className="text-4xl">💼</div>
+            <div className="h-80 bg-gray-900 rounded-2xl flex items-center justify-center overflow-hidden relative">
+              <Image
+                src="/Rectangle 54.png"
+                alt="Mac 구입하기"
+                fill
+                className="object-contain"
+              />
             </div>
           </div>
           
@@ -252,8 +267,13 @@ export default function Home() {
             <p className="text-sm text-gray-600 mb-6">
               궁금하신 점이나 고민이 있으신가요? 전문가와 1:1 상담을 받아보세요.
             </p>
-            <div className="aspect-video bg-white rounded-2xl flex items-center justify-center">
-              <div className="text-4xl">👨‍💼</div>
+            <div className="h-80 bg-white rounded-2xl flex items-center justify-center overflow-hidden relative">
+              <Image
+                src="/Rectangle 53.png"
+                alt="전문가 상담"
+                fill
+                className="object-contain"
+              />
             </div>
           </div>
         </div>
@@ -271,8 +291,13 @@ export default function Home() {
             <p className="text-sm text-gray-600 mb-6">
               1:1 맞춤 컨설팅으로 비즈니스 제품을 만나보세요.
             </p>
-            <div className="aspect-video bg-white rounded-2xl flex items-center justify-center">
-              <div className="text-6xl">💻</div>
+            <div className="h-80 bg-white rounded-2xl flex items-center justify-center overflow-hidden relative">
+              <Image
+                src="/Rectangle 45.png"
+                alt="사업 운영 성장"
+                fill
+                className="object-contain"
+              />
             </div>
           </div>
           
@@ -281,8 +306,13 @@ export default function Home() {
             <p className="text-sm text-gray-300 mb-6">
               강력한 성능과 최고의 앱으로 학습 효율을 높이세요.
             </p>
-            <div className="aspect-video bg-gray-800 rounded-2xl flex items-center justify-center">
-              <div className="text-6xl">⚡</div>
+            <div className="h-80 bg-gray-800 rounded-2xl flex items-center justify-center overflow-hidden relative">
+              <Image
+                src="/Rectangle 46.png"
+                alt="학생 개발자"
+                fill
+                className="object-contain"
+              />
             </div>
           </div>
         </div>
@@ -294,20 +324,61 @@ export default function Home() {
           넷북몰 <span className="text-indigo-600">공간</span>. 살펴본 계속.
         </h2>
         
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { title: '넷북몰 뮤직', icon: '🎵', color: 'bg-red-50' },
-            { title: '넷북몰 TV', icon: '📺', color: 'bg-blue-50' },
-            { title: '넷북몰 스토리', icon: '📖', color: 'bg-green-50' },
-            { title: '넷북몰 앱스', icon: '📱', color: 'bg-purple-50' }
-          ].map((item, idx) => (
-            <div key={idx} className={`${item.color} rounded-3xl p-6 hover:shadow-lg transition-shadow cursor-pointer`}>
-              <div className="aspect-square bg-white rounded-2xl flex items-center justify-center mb-4">
-                <div className="text-5xl">{item.icon}</div>
-              </div>
-              <h3 className="font-semibold text-sm text-center">{item.title}</h3>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          <div className="bg-white rounded-3xl p-4 hover:shadow-lg transition-shadow cursor-pointer">
+            <div className="aspect-square bg-white rounded-2xl flex items-center justify-center overflow-hidden relative">
+              <Image
+                src="/Rectangle 22.png"
+                alt="넷북몰 공간 1"
+                fill
+                className="object-contain"
+              />
             </div>
-          ))}
+          </div>
+          
+          <div className="bg-white rounded-3xl p-4 hover:shadow-lg transition-shadow cursor-pointer">
+            <div className="aspect-square bg-white rounded-2xl flex items-center justify-center overflow-hidden relative">
+              <Image
+                src="/Rectangle 48.png"
+                alt="넷북몰 공간 2"
+                fill
+                className="object-contain"
+              />
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-3xl p-4 hover:shadow-lg transition-shadow cursor-pointer">
+            <div className="aspect-square bg-white rounded-2xl flex items-center justify-center overflow-hidden relative">
+              <Image
+                src="/Rectangle 49.png"
+                alt="넷북몰 공간 3"
+                fill
+                className="object-contain"
+              />
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-3xl p-4 hover:shadow-lg transition-shadow cursor-pointer">
+            <div className="aspect-square bg-white rounded-2xl flex items-center justify-center overflow-hidden relative">
+              <Image
+                src="/Rectangle 50.png"
+                alt="넷북몰 공간 4"
+                fill
+                className="object-contain"
+              />
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-3xl p-4 hover:shadow-lg transition-shadow cursor-pointer">
+            <div className="aspect-square bg-white rounded-2xl flex items-center justify-center overflow-hidden relative">
+              <Image
+                src="/Rectangle 26.png"
+                alt="넷북몰 공간 5"
+                fill
+                className="object-contain"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -327,25 +398,25 @@ export default function Home() {
             <div>
               <h4 className="font-semibold mb-4 text-sm">계정</h4>
               <ul className="space-y-2 text-xs text-gray-600">
-                <li><a href="#" className="hover:text-black">넷북몰 계정 관리</a></li>
-                <li><a href="#" className="hover:text-black">주문 조회</a></li>
-                <li><a href="#" className="hover:text-black">반품</a></li>
+                <li><a href="/account" className="hover:text-black">넷북몰 계정 관리</a></li>
+                <li><a href="/orders" className="hover:text-black">주문 조회</a></li>
+                <li><a href="/returns" className="hover:text-black">반품</a></li>
               </ul>
             </div>
             <div>
               <h4 className="font-semibold mb-4 text-sm">넷북몰 소개</h4>
               <ul className="space-y-2 text-xs text-gray-600">
-                <li><a href="#" className="hover:text-black">회사 소개</a></li>
-                <li><a href="#" className="hover:text-black">채용</a></li>
-                <li><a href="#" className="hover:text-black">연락처</a></li>
+                <li><a href="/about" className="hover:text-black">회사 소개</a></li>
+                <li><a href="/careers" className="hover:text-black">채용</a></li>
+                <li><a href="/contact" className="hover:text-black">연락처</a></li>
               </ul>
             </div>
             <div>
               <h4 className="font-semibold mb-4 text-sm">고객지원</h4>
               <ul className="space-y-2 text-xs text-gray-600">
-                <li><a href="#" className="hover:text-black">FAQ</a></li>
-                <li><a href="#" className="hover:text-black">배송 정보</a></li>
-                <li><a href="#" className="hover:text-black">문의하기</a></li>
+                <li><a href="/faq" className="hover:text-black">FAQ</a></li>
+                <li><a href="/shipping" className="hover:text-black">배송 정보</a></li>
+                <li><a href="/contact" className="hover:text-black">문의하기</a></li>
               </ul>
             </div>
           </div>
