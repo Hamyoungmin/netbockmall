@@ -40,18 +40,18 @@ export default function SupportPage() {
       </nav>
 
       {/* 히어로 섹션 */}
-      <section className="bg-black text-white py-2 mb-6">
+      <section className="bg-gray-100 text-black py-2 mb-6">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h1 className="text-2xl md:text-3xl font-semibold mb-1">
             고객지원
           </h1>
-          <p className="text-sm md:text-base text-gray-300 mb-2">
+          <p className="text-sm md:text-base text-gray-700 mb-2">
             궁금하신 점이 있으신가요? 도와드리겠습니다.
           </p>
           <div className="max-w-5xl mx-auto mt-2">
             <div className="relative w-full h-[200px] md:h-[250px] overflow-hidden">
               <Image
-                src="/Rectangle 2.png"
+                src="/Rectangle 53.png"
                 alt="Support"
                 fill
                 className="object-contain"
@@ -65,14 +65,6 @@ export default function SupportPage() {
       <div className="max-w-7xl mx-auto px-4 py-16">
         <div className="grid md:grid-cols-3 gap-8 mb-16">
           <div className="bg-gray-50 rounded-3xl p-8 text-center hover:shadow-xl transition-all cursor-pointer">
-            <div className="w-full h-40 mb-4 flex items-center justify-center overflow-hidden relative bg-white rounded-2xl">
-              <Image
-                src="/Rectangle 52.png"
-                alt="실시간 채팅"
-                fill
-                className="object-contain"
-              />
-            </div>
             <h3 className="text-2xl font-semibold mb-4">실시간 채팅</h3>
             <p className="text-gray-600 mb-6">전문 상담원과 실시간으로 대화하세요</p>
             <button className="bg-green-600 text-white px-8 py-3 rounded-full hover:bg-green-700 transition">
@@ -81,14 +73,6 @@ export default function SupportPage() {
           </div>
 
           <div className="bg-gray-50 rounded-3xl p-8 text-center hover:shadow-xl transition-all cursor-pointer">
-            <div className="w-full h-40 mb-4 flex items-center justify-center overflow-hidden relative bg-white rounded-2xl">
-              <Image
-                src="/Rectangle 54.png"
-                alt="전화 상담"
-                fill
-                className="object-contain"
-              />
-            </div>
             <h3 className="text-2xl font-semibold mb-4">전화 상담</h3>
             <p className="text-gray-600 mb-6">1588-1234 (평일 9시-18시)</p>
             <button className="bg-green-600 text-white px-8 py-3 rounded-full hover:bg-green-700 transition">
@@ -97,14 +81,6 @@ export default function SupportPage() {
           </div>
 
           <div className="bg-gray-50 rounded-3xl p-8 text-center hover:shadow-xl transition-all cursor-pointer">
-            <div className="w-full h-40 mb-4 flex items-center justify-center overflow-hidden relative bg-white rounded-2xl">
-              <Image
-                src="/Rectangle 53.png"
-                alt="이메일 문의"
-                fill
-                className="object-contain"
-              />
-            </div>
             <h3 className="text-2xl font-semibold mb-4">이메일 문의</h3>
             <p className="text-gray-600 mb-6">24시간 이내에 답변드립니다</p>
             <button className="bg-green-600 text-white px-8 py-3 rounded-full hover:bg-green-700 transition">

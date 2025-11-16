@@ -40,18 +40,18 @@ export default function AccessoriesPage() {
       </nav>
 
       {/* 히어로 섹션 */}
-      <section className="bg-black text-white py-2 mb-6">
+      <section className="bg-gray-100 text-black py-2 mb-6">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h1 className="text-2xl md:text-3xl font-semibold mb-1">
             악세서리
           </h1>
-          <p className="text-sm md:text-base text-gray-300 mb-2">
+          <p className="text-sm md:text-base text-gray-700 mb-2">
             당신의 디바이스를 더욱 특별하게
           </p>
           <div className="max-w-5xl mx-auto mt-2">
             <div className="relative w-full h-[200px] md:h-[250px] overflow-hidden">
               <Image
-                src="/Rectangle 2.png"
+                src="/Rectangle 5.png"
                 alt="Accessories"
                 fill
                 className="object-contain"
@@ -63,13 +63,16 @@ export default function AccessoriesPage() {
 
       {/* 카테고리별 제품 */}
       <div className="max-w-7xl mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold mb-8">오디오</h2>
+        <h2 className="text-3xl font-bold mb-8">이어폰</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {[
-            { name: 'AirPods Pro 2세대', price: '₩359,000', image: '/Rectangle 5.png' },
-            { name: 'AirPods Max', price: '₩769,000', image: '/Rectangle 8.png' },
-            { name: 'Galaxy Buds3 Pro', price: '₩329,000', image: '/Rectangle 5.png' },
-            { name: 'Sony WH-1000XM5', price: '₩449,000', image: '/Rectangle 8.png' },
+            { name: '블루투스 이어폰', price: '₩89,000', image: '/1667192556000_블루투스 이어폰_커널형.png' },
+            { name: 'Britz 무선 이어폰', price: '₩129,000', image: '/0048341150__BZ-ER3__M_640_640.jpg' },
+            { name: '프리미엄 이어버드', price: '₩159,000', image: '/88502490015.2.jpg' },
+            { name: '스포츠 블루투스 이어폰', price: '₩79,000', image: '/XL.jpg' },
+            { name: 'TWS 이어폰', price: '₩99,000', image: '/54484793_1.avif' },
+            { name: '무선 이어폰', price: '₩149,000', image: '/Rectangle 5.png' },
+            { name: '프리미엄 헤드폰', price: '₩289,000', image: '/Rectangle 8.png' },
           ].map((product, idx) => (
             <div key={idx} className="bg-gray-50 rounded-2xl p-6 hover:shadow-lg transition-all cursor-pointer">
               <div className="aspect-square bg-white rounded-xl mb-4 flex items-center justify-center overflow-hidden relative">

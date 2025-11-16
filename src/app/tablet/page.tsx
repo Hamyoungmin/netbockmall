@@ -40,18 +40,18 @@ export default function TabletPage() {
       </nav>
 
       {/* 히어로 섹션 */}
-      <section className="bg-black text-white py-2 mb-6">
+      <section className="bg-gray-100 text-black py-2 mb-6">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h1 className="text-2xl md:text-3xl font-semibold mb-1">
             태블릿
           </h1>
-          <p className="text-sm md:text-base text-gray-300 mb-2">
+          <p className="text-sm md:text-base text-gray-700 mb-2">
             휴대성과 성능을 겸비한 스마트 디바이스
           </p>
           <div className="max-w-5xl mx-auto mt-2">
             <div className="relative w-full h-[200px] md:h-[250px] overflow-hidden">
               <Image
-                src="/Rectangle 2.png"
+                src="/Rectangle 46.png"
                 alt="Tablet"
                 fill
                 className="object-contain"
@@ -65,17 +65,17 @@ export default function TabletPage() {
       <div className="max-w-7xl mx-auto px-4 py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {[
-            { name: 'iPad Pro 13"', price: '₩1,990,000', desc: 'M4 칩, 13인치' },
-            { name: 'iPad Pro 11"', price: '₩1,490,000', desc: 'M4 칩, 11인치' },
-            { name: 'iPad Air', price: '₩899,000', desc: 'M2 칩, 11인치' },
-            { name: 'iPad', price: '₩679,000', desc: 'A15 칩, 10.9인치' },
-            { name: 'Galaxy Tab S9 Ultra', price: '₩1,590,000', desc: '14.6인치 Super AMOLED' },
-            { name: 'Galaxy Tab S9+', price: '₩1,190,000', desc: '12.4인치 Super AMOLED' },
+            { name: 'Lenovo Tab P12 Pro', price: '₩1,290,000', desc: '12.6인치 AMOLED, Snapdragon 870', image: '/6ecdc07f-96ca-4bdf-bb97-73520ec62f0d.jpg' },
+            { name: 'Samsung Galaxy Tab S9 FE', price: '₩729,000', desc: '10.9인치, Exynos 1380, S펜 포함', image: '/0046070050__ZAE40029KR__M_640_640.jpg' },
+            { name: 'iPad Air 11" M2', price: '₩899,000', desc: 'M2 칩, 11인치 Liquid Retina', image: '/f68db29bf3cdfc2f75b82ea78f60b297.jpg' },
+            { name: 'Xiaomi Pad 6 Pro', price: '₩689,000', desc: '11인치, Snapdragon 8+ Gen 1', image: '/36375_32275_120.jpg' },
+            { name: 'Lenovo Tab M10 Plus', price: '₩449,000', desc: '10.6인치 FHD+, MediaTek Helio G80', image: '/2023110110193994100_l.jpg' },
+            { name: 'Galaxy Tab A9+', price: '₩379,000', desc: '11인치, Snapdragon 695, 5G 지원', image: '/images.jpg' },
           ].map((product, idx) => (
             <div key={idx} className="bg-gray-50 rounded-3xl p-6 hover:shadow-xl transition-all cursor-pointer">
               <div className="aspect-square bg-white rounded-2xl mb-6 flex items-center justify-center overflow-hidden relative">
                 <Image
-                  src="/Rectangle 39.png"
+                  src={product.image}
                   alt={product.name}
                   fill
                   className="object-cover"

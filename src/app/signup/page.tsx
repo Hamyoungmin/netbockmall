@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 
-export default function LoginPage() {
+export default function SignupPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* 네비게이션 */}
@@ -42,15 +42,24 @@ export default function LoginPage() {
         </div>
       </nav>
 
-      {/* 로그인 폼 */}
+      {/* 회원가입 폼 */}
       <div className="flex items-center justify-center py-16 px-4">
         <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 w-full max-w-md">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold mb-2">로그인</h1>
-            <p className="text-gray-600">넷북몰에 오신 것을 환영합니다</p>
+            <h1 className="text-3xl font-bold mb-2">회원가입</h1>
+            <p className="text-gray-600">넷북몰 회원이 되어보세요</p>
           </div>
 
           <form className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium mb-2">이름</label>
+              <input
+                type="text"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="홍길동"
+              />
+            </div>
+
             <div>
               <label className="block text-sm font-medium mb-2">이메일</label>
               <input
@@ -69,29 +78,44 @@ export default function LoginPage() {
               />
             </div>
 
-            <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                로그인 상태 유지
+            <div>
+              <label className="block text-sm font-medium mb-2">비밀번호 확인</label>
+              <input
+                type="password"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="••••••••"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-2">전화번호</label>
+              <input
+                type="tel"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="010-1234-5678"
+              />
+            </div>
+
+            <div className="flex items-start">
+              <input type="checkbox" className="mr-2 mt-1" />
+              <label className="text-sm text-gray-600">
+                <span className="font-medium">이용약관</span> 및 <span className="font-medium">개인정보처리방침</span>에 동의합니다
               </label>
-              <a href="#" className="text-blue-600 hover:underline">
-                비밀번호 찾기
-              </a>
             </div>
 
             <button
               type="submit"
               className="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition"
             >
-              로그인
+              회원가입
             </button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              계정이 없으신가요?
-              <a href="/signup" className="ml-2 text-blue-600 font-semibold hover:underline">
-                회원가입
+              이미 계정이 있으신가요?
+              <a href="/login" className="ml-2 text-blue-600 font-semibold hover:underline">
+                로그인
               </a>
             </p>
           </div>

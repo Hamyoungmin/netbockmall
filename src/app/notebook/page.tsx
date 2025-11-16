@@ -40,18 +40,18 @@ export default function NotebookPage() {
       </nav>
 
       {/* 히어로 섹션 */}
-      <section className="bg-black text-white py-2 mb-6">
+      <section className="bg-gray-100 text-black py-2 mb-6">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h1 className="text-2xl md:text-3xl font-semibold mb-1">
             노트북
           </h1>
-          <p className="text-sm md:text-base text-gray-300 mb-2">
+          <p className="text-sm md:text-base text-gray-700 mb-2">
             다양한 브랜드의 고성능 노트북
           </p>
           <div className="max-w-5xl mx-auto mt-2">
             <div className="relative w-full h-[200px] md:h-[250px] overflow-hidden">
               <Image
-                src="/Rectangle 2.png"
+                src="/Rectangle 45.png"
                 alt="Notebook"
                 fill
                 className="object-contain"
@@ -65,17 +65,17 @@ export default function NotebookPage() {
       <div className="max-w-7xl mx-auto px-4 py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {[
-            { name: 'LG 그램 17', price: '₩2,190,000', desc: 'Intel i7, 17인치' },
-            { name: 'Samsung Galaxy Book4', price: '₩1,590,000', desc: 'Intel i5, 15.6인치' },
-            { name: 'ASUS VivoBook', price: '₩1,290,000', desc: 'AMD Ryzen 7, 14인치' },
-            { name: 'Dell XPS 13', price: '₩2,490,000', desc: 'Intel i7, 13.4인치' },
-            { name: 'HP Spectre x360', price: '₩2,790,000', desc: 'Intel i7, 14인치 2-in-1' },
-            { name: 'Lenovo ThinkPad', price: '₩1,890,000', desc: 'Intel i5, 14인치' },
+            { name: '삼성 갤럭시북4 프로', price: '₩2,190,000', desc: 'Intel Core Ultra 7, 16인치', image: '/1435_2025031921540423.jpg' },
+            { name: '삼성 갤럭시북4 울트라', price: '₩2,590,000', desc: 'Intel Core Ultra 9, 16인치 AMOLED', image: '/2120_3030_532.jpg' },
+            { name: '삼성 갤럭시북4', price: '₩1,290,000', desc: 'Intel Core 5, 15.6인치', image: '/made-in-china.webp' },
+            { name: '삼성 갤럭시북3 프로 360', price: '₩2,490,000', desc: 'Intel i7, 16인치 2-in-1', image: '/image_readtop_2020_925135_15995052644345695.jpg' },
+            { name: '삼성 갤럭시북3 울트라', price: '₩2,790,000', desc: 'Intel i7, 16인치 AMOLED', image: '/레노버-2022-아이디어패드-노트북Arctic-Grey-·-SLIM3-15ITL6.png' },
+            { name: '삼성 갤럭시북2 프로', price: '₩1,890,000', desc: 'Intel i5, 15.6인치', image: '/MuwaDiz-FZztF8P-aJSdosnAg8YxDDHtDQNjwrRlDMcxWUFpdv9SXaf3Y4lXe_NJtNd_9nd0DNDuDx-6LNg2hg.webp' },
           ].map((product, idx) => (
             <div key={idx} className="bg-gray-50 rounded-3xl p-6 hover:shadow-xl transition-all cursor-pointer">
               <div className="aspect-video bg-white rounded-2xl mb-6 flex items-center justify-center overflow-hidden relative">
                 <Image
-                  src="/Rectangle 45.png"
+                  src={product.image}
                   alt={product.name}
                   fill
                   className="object-cover"

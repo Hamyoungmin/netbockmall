@@ -40,18 +40,18 @@ export default function StorePage() {
       </nav>
 
       {/* 히어로 섹션 */}
-      <section className="bg-black text-white py-2 mb-6">
+      <section className="bg-gray-100 text-black py-2 mb-6">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h1 className="text-2xl md:text-3xl font-semibold mb-1">
-            넷북몰 <span className="text-blue-400">스토어</span>
+            넷북몰 <span className="text-blue-600">스토어</span>
           </h1>
-          <p className="text-sm md:text-base text-gray-300 mb-2">
+          <p className="text-sm md:text-base text-gray-700 mb-2">
             최고의 쇼핑경험을 만나보세요
           </p>
           <div className="max-w-5xl mx-auto mt-2">
             <div className="relative w-full h-[200px] md:h-[250px] overflow-hidden">
               <Image
-                src="/Rectangle 2.png"
+                src="/Rectangle 4.png"
                 alt="Store"
                 fill
                 className="object-contain"

@@ -40,18 +40,18 @@ export default function MacbookPage() {
       </nav>
 
       {/* 히어로 섹션 */}
-      <section className="bg-black text-white py-2 mb-6">
+      <section className="bg-gray-100 text-black py-2 mb-6">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h1 className="text-2xl md:text-3xl font-semibold mb-1">
             MacBook
           </h1>
-          <p className="text-sm md:text-base text-gray-300 mb-2">
+          <p className="text-sm md:text-base text-gray-700 mb-2">
             강력한 성능. 완벽한 휴대성.
           </p>
           <div className="max-w-5xl mx-auto mt-2">
             <div className="relative w-full h-[200px] md:h-[250px] overflow-hidden">
               <Image
-                src="/Rectangle 2.png"
+                src="/Rectangle 37.png"
                 alt="MacBook"
                 fill
                 className="object-contain"
@@ -65,17 +65,17 @@ export default function MacbookPage() {
       <div className="max-w-7xl mx-auto px-4 py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {[
-            { name: 'MacBook Air M3', price: '₩1,590,000', desc: '13.6" 디스플레이' },
-            { name: 'MacBook Air M3', price: '₩1,890,000', desc: '15.3" 디스플레이' },
-            { name: 'MacBook Pro M3', price: '₩2,390,000', desc: '14" 디스플레이' },
-            { name: 'MacBook Pro M3 Pro', price: '₩3,190,000', desc: '14" 디스플레이' },
-            { name: 'MacBook Pro M3 Max', price: '₩4,990,000', desc: '16" 디스플레이' },
-            { name: 'MacBook Pro M3 Max', price: '₩5,990,000', desc: '16" 디스플레이 (최고 사양)' },
+            { name: 'MacBook Air 13" M3', price: '₩1,590,000', desc: '8코어 CPU, 8GB 통합메모리, 256GB SSD', image: '/mba_13_15_140e630d3_2x.jpg' },
+            { name: 'MacBook Air 15" M3', price: '₩1,890,000', desc: '8코어 CPU, 16GB 통합메모리, 512GB SSD', image: '/macbook-air-og-202503.jpg' },
+            { name: 'MacBook Pro 14" M3', price: '₩2,390,000', desc: '8코어 CPU, 10코어 GPU, 512GB SSD', image: '/a548918e67ad45723edcc50c4494bebf.jpg' },
+            { name: 'MacBook Pro 14" M3 Pro', price: '₩3,190,000', desc: '11코어 CPU, 14코어 GPU, 1TB SSD', image: '/22711-54083-sample.jpg' },
+            { name: 'MacBook Pro 16" M3 Max', price: '₩4,990,000', desc: '14코어 CPU, 30코어 GPU, 1TB SSD', image: '/refurb-mbp16touch-silver-gallery-2019_GEO_KR.jpg' },
+            { name: 'MacBook Pro 16" M3 Max', price: '₩5,990,000', desc: '16코어 CPU, 40코어 GPU, 2TB SSD', image: '/2017111644391181.png' },
           ].map((product, idx) => (
             <div key={idx} className="bg-gray-50 rounded-3xl p-6 hover:shadow-xl transition-all cursor-pointer">
               <div className="aspect-video bg-white rounded-2xl mb-6 flex items-center justify-center overflow-hidden relative">
                 <Image
-                  src="/Rectangle 37.png"
+                  src={product.image}
                   alt={product.name}
                   fill
                   className="object-cover"
