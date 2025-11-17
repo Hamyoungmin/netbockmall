@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Footer from "@/components/Footer";
 
 export default function StorePage() {
   return (
@@ -146,14 +147,7 @@ export default function StorePage() {
         </div>
       </div>
 
-      {/* 푸터 */}
-      <footer className="bg-gray-50 border-t border-gray-200 py-8 mt-16">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center text-xs text-gray-600">
-            <p>Copyright © 2025 넷북몰. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

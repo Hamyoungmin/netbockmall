@@ -39,18 +39,6 @@ export default function OrdersPage() {
         </div>
       </nav>
 
-      {/* 히어로 섹션 */}
-      <section className="bg-black text-white py-2 mb-6">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-2xl md:text-3xl font-semibold mb-1">
-            주문 조회
-          </h1>
-          <p className="text-sm md:text-base text-gray-300 mb-2">
-            주문 내역을 확인하세요
-          </p>
-        </div>
-      </section>
-
       {/* 메인 콘텐츠 */}
       <div className="max-w-5xl mx-auto px-4 py-16">
         <h2 className="text-2xl font-bold mb-8">최근 주문 내역</h2>

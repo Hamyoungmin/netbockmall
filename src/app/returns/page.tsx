@@ -39,18 +39,6 @@ export default function ReturnsPage() {
         </div>
       </nav>
 
-      {/* 히어로 섹션 */}
-      <section className="bg-black text-white py-2 mb-6">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-2xl md:text-3xl font-semibold mb-1">
-            반품 및 교환
-          </h1>
-          <p className="text-sm md:text-base text-gray-300 mb-2">
-            제품 반품 및 교환을 신청하세요
-          </p>
-        </div>
-      </section>
-
       {/* 메인 콘텐츠 */}
       <div className="max-w-4xl mx-auto px-4 py-16">
         {/* 반품 정책 */}

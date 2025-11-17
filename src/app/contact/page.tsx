@@ -39,18 +39,6 @@ export default function ContactPage() {
         </div>
       </nav>
 
-      {/* 히어로 섹션 */}
-      <section className="bg-black text-white py-2 mb-6">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-2xl md:text-3xl font-semibold mb-1">
-            연락처
-          </h1>
-          <p className="text-sm md:text-base text-gray-300 mb-2">
-            언제든지 문의해주세요
-          </p>
-        </div>
-      </section>
-
       {/* 메인 콘텐츠 */}
       <div className="max-w-5xl mx-auto px-4 py-16">
         <div className="grid md:grid-cols-2 gap-12 mb-16">
@@ -58,40 +46,28 @@ export default function ContactPage() {
           <div>
             <h2 className="text-3xl font-bold mb-8">문의하기</h2>
             <div className="space-y-6">
-              <div className="flex items-start">
-                <div className="text-3xl mr-4">📞</div>
-                <div>
-                  <h3 className="font-semibold text-lg mb-2">전화</h3>
-                  <p className="text-gray-600">1588-1234</p>
-                  <p className="text-sm text-gray-500">평일 9:00 - 18:00</p>
-                </div>
+              <div>
+                <h3 className="font-semibold text-lg mb-2">전화</h3>
+                <p className="text-gray-600">1588-1234</p>
+                <p className="text-sm text-gray-500">평일 9:00 - 18:00</p>
               </div>
 
-              <div className="flex items-start">
-                <div className="text-3xl mr-4">📧</div>
-                <div>
-                  <h3 className="font-semibold text-lg mb-2">이메일</h3>
-                  <p className="text-gray-600">support@netbookmall.com</p>
-                  <p className="text-sm text-gray-500">24시간 이내 답변</p>
-                </div>
+              <div>
+                <h3 className="font-semibold text-lg mb-2">이메일</h3>
+                <p className="text-gray-600">support@netbookmall.com</p>
+                <p className="text-sm text-gray-500">24시간 이내 답변</p>
               </div>
 
-              <div className="flex items-start">
-                <div className="text-3xl mr-4">💬</div>
-                <div>
-                  <h3 className="font-semibold text-lg mb-2">카카오톡</h3>
-                  <p className="text-gray-600">@넷북몰</p>
-                  <p className="text-sm text-gray-500">실시간 상담</p>
-                </div>
+              <div>
+                <h3 className="font-semibold text-lg mb-2">카카오톡</h3>
+                <p className="text-gray-600">@넷북몰</p>
+                <p className="text-sm text-gray-500">실시간 상담</p>
               </div>
 
-              <div className="flex items-start">
-                <div className="text-3xl mr-4">🏢</div>
-                <div>
-                  <h3 className="font-semibold text-lg mb-2">본사</h3>
-                  <p className="text-gray-600">서울시 강남구 테헤란로 123</p>
-                  <p className="text-sm text-gray-500">넷북빌딩 5층</p>
-                </div>
+              <div>
+                <h3 className="font-semibold text-lg mb-2">본사</h3>
+                <p className="text-gray-600">서울시 강남구 테헤란로 123</p>
+                <p className="text-sm text-gray-500">넷북빌딩 5층</p>
               </div>
             </div>
           </div>
@@ -102,22 +78,22 @@ export default function ContactPage() {
             <div className="space-y-6">
               <div className="bg-gray-50 rounded-2xl p-6">
                 <h3 className="font-bold text-lg mb-3">강남점</h3>
-                <p className="text-gray-600 mb-2">📍 서울시 강남구 테헤란로 123</p>
-                <p className="text-gray-600 mb-2">📞 02-1234-5678</p>
+                <p className="text-gray-600 mb-2">서울시 강남구 테헤란로 123</p>
+                <p className="text-gray-600 mb-2">02-1234-5678</p>
                 <p className="text-sm text-gray-500">평일 10:00 - 20:00 / 주말 11:00 - 19:00</p>
               </div>
 
               <div className="bg-gray-50 rounded-2xl p-6">
                 <h3 className="font-bold text-lg mb-3">홍대점</h3>
-                <p className="text-gray-600 mb-2">📍 서울시 마포구 양화로 456</p>
-                <p className="text-gray-600 mb-2">📞 02-2345-6789</p>
+                <p className="text-gray-600 mb-2">서울시 마포구 양화로 456</p>
+                <p className="text-gray-600 mb-2">02-2345-6789</p>
                 <p className="text-sm text-gray-500">평일 10:00 - 20:00 / 주말 11:00 - 19:00</p>
               </div>
 
               <div className="bg-gray-50 rounded-2xl p-6">
                 <h3 className="font-bold text-lg mb-3">부산점</h3>
-                <p className="text-gray-600 mb-2">📍 부산시 해운대구 센텀로 789</p>
-                <p className="text-gray-600 mb-2">📞 051-3456-7890</p>
+                <p className="text-gray-600 mb-2">부산시 해운대구 센텀로 789</p>
+                <p className="text-gray-600 mb-2">051-3456-7890</p>
                 <p className="text-sm text-gray-500">평일 10:00 - 20:00 / 주말 11:00 - 19:00</p>
               </div>
             </div>

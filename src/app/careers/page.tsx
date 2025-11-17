@@ -39,18 +39,6 @@ export default function CareersPage() {
         </div>
       </nav>
 
-      {/* 히어로 섹션 */}
-      <section className="bg-black text-white py-2 mb-6">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-2xl md:text-3xl font-semibold mb-1">
-            채용 정보
-          </h1>
-          <p className="text-sm md:text-base text-gray-300 mb-2">
-            넷북몰과 함께 성장하세요
-          </p>
-        </div>
-      </section>
-
       {/* 메인 콘텐츠 */}
       <div className="max-w-5xl mx-auto px-4 py-16">
         {/* 회사 문화 */}
@@ -100,7 +88,7 @@ export default function CareersPage() {
                     <span>•</span>
                     <span>{job.type}</span>
                     <span>•</span>
-                    <span>📍 {job.location}</span>
+                    <span>{job.location}</span>
                   </div>
                 </div>
                 <button className="mt-4 md:mt-0 px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition">
@@ -115,47 +103,29 @@ export default function CareersPage() {
         <div className="bg-gradient-to-br from-orange-500 to-red-500 text-white rounded-3xl p-12 mb-16">
           <h3 className="text-2xl font-bold mb-8 text-center">복지 혜택</h3>
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="flex items-start">
-              <span className="text-2xl mr-3">💰</span>
-              <div>
-                <div className="font-semibold mb-1">경쟁력 있는 연봉</div>
-                <div className="text-sm opacity-90">업계 최상위 수준의 급여</div>
-              </div>
+            <div>
+              <div className="font-semibold mb-1">경쟁력 있는 연봉</div>
+              <div className="text-sm opacity-90">업계 최상위 수준의 급여</div>
             </div>
-            <div className="flex items-start">
-              <span className="text-2xl mr-3">🏖️</span>
-              <div>
-                <div className="font-semibold mb-1">유연 근무제</div>
-                <div className="text-sm opacity-90">재택근무 및 자율 출퇴근</div>
-              </div>
+            <div>
+              <div className="font-semibold mb-1">유연 근무제</div>
+              <div className="text-sm opacity-90">재택근무 및 자율 출퇴근</div>
             </div>
-            <div className="flex items-start">
-              <span className="text-2xl mr-3">🎓</span>
-              <div>
-                <div className="font-semibold mb-1">교육 지원</div>
-                <div className="text-sm opacity-90">도서 구입 및 세미나 참가 지원</div>
-              </div>
+            <div>
+              <div className="font-semibold mb-1">교육 지원</div>
+              <div className="text-sm opacity-90">도서 구입 및 세미나 참가 지원</div>
             </div>
-            <div className="flex items-start">
-              <span className="text-2xl mr-3">🍱</span>
-              <div>
-                <div className="font-semibold mb-1">식비 지원</div>
-                <div className="text-sm opacity-90">중식 및 석식 제공</div>
-              </div>
+            <div>
+              <div className="font-semibold mb-1">식비 지원</div>
+              <div className="text-sm opacity-90">중식 및 석식 제공</div>
             </div>
-            <div className="flex items-start">
-              <span className="text-2xl mr-3">🏥</span>
-              <div>
-                <div className="font-semibold mb-1">건강검진</div>
-                <div className="text-sm opacity-90">연 1회 종합검진 지원</div>
-              </div>
+            <div>
+              <div className="font-semibold mb-1">건강검진</div>
+              <div className="text-sm opacity-90">연 1회 종합검진 지원</div>
             </div>
-            <div className="flex items-start">
-              <span className="text-2xl mr-3">🎉</span>
-              <div>
-                <div className="font-semibold mb-1">경조사 지원</div>
-                <div className="text-sm opacity-90">경조금 및 경조 휴가</div>
-              </div>
+            <div>
+              <div className="font-semibold mb-1">경조사 지원</div>
+              <div className="text-sm opacity-90">경조금 및 경조 휴가</div>
             </div>
           </div>
         </div>

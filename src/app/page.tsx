@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import SearchModal from "@/components/SearchModal";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -54,13 +55,9 @@ export default function Home() {
           <h1 className="text-5xl md:text-7xl font-semibold mb-4">
             iPhone 15pro
           </h1>
-          <p className="text-xl md:text-2xl mb-2 text-gray-300">
+          <p className="text-xl md:text-2xl mb-8 text-gray-300">
             티타늄. 초강력. 초경량. 초프로
           </p>
-          <div className="flex justify-center gap-6 mb-8 text-sm">
-            <a href="#" className="text-blue-400 hover:underline">더 알아보기 &gt;</a>
-            <a href="#" className="text-blue-400 hover:underline">구입하기&gt;</a>
-          </div>
           <div className="max-w-5xl mx-auto mt-8">
             <div className="relative w-full h-[400px] md:h-[500px]">
               <Image
@@ -391,49 +388,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 푸터 */}
-      <footer className="bg-gray-50 border-t border-gray-200 py-8">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
-            <div>
-              <h4 className="font-semibold mb-4 text-sm">쇼핑 및 알아보기</h4>
-              <ul className="space-y-2 text-xs text-gray-600">
-                <li><a href="#" className="hover:text-black">스토어</a></li>
-                <li><a href="#" className="hover:text-black">맥북</a></li>
-                <li><a href="#" className="hover:text-black">태블릿</a></li>
-                <li><a href="#" className="hover:text-black">악세서리</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4 text-sm">계정</h4>
-              <ul className="space-y-2 text-xs text-gray-600">
-                <li><a href="/account" className="hover:text-black">넷북몰 계정 관리</a></li>
-                <li><a href="/orders" className="hover:text-black">주문 조회</a></li>
-                <li><a href="/returns" className="hover:text-black">반품</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4 text-sm">넷북몰 소개</h4>
-              <ul className="space-y-2 text-xs text-gray-600">
-                <li><a href="/about" className="hover:text-black">회사 소개</a></li>
-                <li><a href="/careers" className="hover:text-black">채용</a></li>
-                <li><a href="/contact" className="hover:text-black">연락처</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4 text-sm">고객지원</h4>
-              <ul className="space-y-2 text-xs text-gray-600">
-                <li><a href="/faq" className="hover:text-black">FAQ</a></li>
-                <li><a href="/shipping" className="hover:text-black">배송 정보</a></li>
-                <li><a href="/contact" className="hover:text-black">문의하기</a></li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-gray-200 pt-6 text-xs text-gray-600 text-center">
-            <p>Copyright © 2025 넷북몰. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

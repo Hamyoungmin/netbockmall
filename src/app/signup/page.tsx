@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Footer from "@/components/Footer";
 
 export default function SignupPage() {
   return (
@@ -42,7 +43,6 @@ export default function SignupPage() {
         </div>
       </nav>
 
-      {/* 회원가입 폼 */}
       <div className="flex items-center justify-center py-16 px-4">
         <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 w-full max-w-md">
           <div className="text-center mb-8">
@@ -132,11 +132,9 @@ export default function SignupPage() {
 
             <div className="mt-6 grid grid-cols-2 gap-4">
               <button className="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition">
-                <span className="mr-2">🍎</span>
                 <span className="text-sm font-medium">Apple</span>
               </button>
               <button className="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition">
-                <span className="mr-2">📧</span>
                 <span className="text-sm font-medium">Google</span>
               </button>
             </div>
@@ -144,14 +142,7 @@ export default function SignupPage() {
         </div>
       </div>
 
-      {/* 푸터 */}
-      <footer className="bg-gray-50 border-t border-gray-200 py-8">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center text-xs text-gray-600">
-            <p>Copyright © 2025 넷북몰. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

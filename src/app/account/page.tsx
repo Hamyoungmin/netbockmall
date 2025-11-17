@@ -39,44 +39,28 @@ export default function AccountPage() {
         </div>
       </nav>
 
-      {/* 히어로 섹션 */}
-      <section className="bg-black text-white py-2 mb-6">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-2xl md:text-3xl font-semibold mb-1">
-            넷북몰 계정 관리
-          </h1>
-          <p className="text-sm md:text-base text-gray-300 mb-2">
-            계정 정보를 관리하세요
-          </p>
-        </div>
-      </section>
-
       {/* 메인 콘텐츠 */}
       <div className="max-w-4xl mx-auto px-4 py-16">
         <div className="grid md:grid-cols-2 gap-8">
           <div className="bg-gray-50 rounded-3xl p-8 hover:shadow-xl transition cursor-pointer">
-            <div className="text-5xl mb-4">👤</div>
             <h3 className="text-xl font-semibold mb-2">개인정보</h3>
             <p className="text-gray-600 mb-4">이름, 이메일, 전화번호 등을 관리하세요</p>
             <a href="#" className="text-blue-600 hover:underline">수정하기 &gt;</a>
           </div>
 
           <div className="bg-gray-50 rounded-3xl p-8 hover:shadow-xl transition cursor-pointer">
-            <div className="text-5xl mb-4">🔒</div>
             <h3 className="text-xl font-semibold mb-2">보안</h3>
             <p className="text-gray-600 mb-4">비밀번호 및 2단계 인증 설정</p>
             <a href="#" className="text-blue-600 hover:underline">설정하기 &gt;</a>
           </div>
 
           <div className="bg-gray-50 rounded-3xl p-8 hover:shadow-xl transition cursor-pointer">
-            <div className="text-5xl mb-4">📍</div>
             <h3 className="text-xl font-semibold mb-2">배송지</h3>
             <p className="text-gray-600 mb-4">저장된 배송지 주소를 관리하세요</p>
             <a href="#" className="text-blue-600 hover:underline">관리하기 &gt;</a>
           </div>
 
           <div className="bg-gray-50 rounded-3xl p-8 hover:shadow-xl transition cursor-pointer">
-            <div className="text-5xl mb-4">💳</div>
             <h3 className="text-xl font-semibold mb-2">결제 수단</h3>
             <p className="text-gray-600 mb-4">신용카드 및 결제 방법 관리</p>
             <a href="#" className="text-blue-600 hover:underline">관리하기 &gt;</a>

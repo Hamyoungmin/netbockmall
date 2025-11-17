@@ -39,18 +39,6 @@ export default function ShippingPage() {
         </div>
       </nav>
 
-      {/* 히어로 섹션 */}
-      <section className="bg-black text-white py-2 mb-6">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-2xl md:text-3xl font-semibold mb-1">
-            배송 정보
-          </h1>
-          <p className="text-sm md:text-base text-gray-300 mb-2">
-            빠르고 안전한 배송
-          </p>
-        </div>
-      </section>
-
       {/* 메인 콘텐츠 */}
       <div className="max-w-4xl mx-auto px-4 py-16">
         {/* 배송 안내 */}
@@ -59,19 +47,16 @@ export default function ShippingPage() {
           
           <div className="grid md:grid-cols-3 gap-6 mb-12">
             <div className="bg-blue-50 rounded-2xl p-6 text-center">
-              <div className="text-5xl mb-4">📦</div>
               <h3 className="font-bold text-lg mb-2">빠른 배송</h3>
               <p className="text-gray-600 text-sm">주문 후 2-3일 이내 도착</p>
             </div>
 
             <div className="bg-green-50 rounded-2xl p-6 text-center">
-              <div className="text-5xl mb-4">🚚</div>
               <h3 className="font-bold text-lg mb-2">무료 배송</h3>
               <p className="text-gray-600 text-sm">5만원 이상 구매 시</p>
             </div>
 
             <div className="bg-purple-50 rounded-2xl p-6 text-center">
-              <div className="text-5xl mb-4">📍</div>
               <h3 className="font-bold text-lg mb-2">실시간 추적</h3>
               <p className="text-gray-600 text-sm">배송 현황 실시간 확인</p>
             </div>
@@ -163,8 +148,7 @@ export default function ShippingPage() {
 
         {/* 유의사항 */}
         <div className="mt-16 bg-yellow-50 border-2 border-yellow-200 rounded-3xl p-8">
-          <h3 className="text-xl font-bold mb-4 flex items-center">
-            <span className="text-2xl mr-2">⚠️</span>
+          <h3 className="text-xl font-bold mb-4">
             배송 유의사항
           </h3>
           <ul className="space-y-2 text-gray-700">

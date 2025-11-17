@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Footer from "@/components/Footer";
 
 export default function CartPage() {
   const [cartItems, setCartItems] = useState([
@@ -60,7 +61,6 @@ export default function CartPage() {
         </div>
       </nav>
 
-      {/* 메인 콘텐츠 */}
       <div className="max-w-7xl mx-auto px-4 py-16">
         <h1 className="text-4xl font-bold mb-12">장바구니</h1>
 
@@ -152,14 +152,7 @@ export default function CartPage() {
         )}
       </div>
 
-      {/* 푸터 */}
-      <footer className="bg-gray-50 border-t border-gray-200 py-8">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center text-xs text-gray-600">
-            <p>Copyright © 2025 넷북몰. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

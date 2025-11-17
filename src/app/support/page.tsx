@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Footer from "@/components/Footer";
 
 export default function SupportPage() {
   return (
@@ -39,29 +40,6 @@ export default function SupportPage() {
         </div>
       </nav>
 
-      {/* 히어로 섹션 */}
-      <section className="bg-gray-100 text-black py-2 mb-6">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-2xl md:text-3xl font-semibold mb-1">
-            고객지원
-          </h1>
-          <p className="text-sm md:text-base text-gray-700 mb-2">
-            궁금하신 점이 있으신가요? 도와드리겠습니다.
-          </p>
-          <div className="max-w-5xl mx-auto mt-2">
-            <div className="relative w-full h-[200px] md:h-[250px] overflow-hidden">
-              <Image
-                src="/Rectangle 53.png"
-                alt="Support"
-                fill
-                className="object-contain"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 지원 옵션 */}
       <div className="max-w-7xl mx-auto px-4 py-16">
         <div className="grid md:grid-cols-3 gap-8 mb-16">
           <div className="bg-gray-50 rounded-3xl p-8 text-center hover:shadow-xl transition-all cursor-pointer">
@@ -93,16 +71,16 @@ export default function SupportPage() {
         <h2 className="text-4xl font-bold text-center mb-12">자주 묻는 질문</h2>
         <div className="max-w-3xl mx-auto space-y-4">
           {[
-            { q: '배송은 얼마나 걸리나요?', a: '주문 후 2-3일 이내에 배송됩니다.' },
-            { q: '반품/교환은 어떻게 하나요?', a: '제품 수령 후 14일 이내 무료 반품이 가능합니다.' },
-            { q: '할부 결제가 가능한가요?', a: '네, 2-12개월 무이자 할부가 가능합니다.' },
-            { q: '제품 보증기간은 어떻게 되나요?', a: '모든 제품은 1년 무상 보증이 제공됩니다.' },
-            { q: '학생 할인이 있나요?', a: '학생증 제시 시 최대 20% 할인을 받으실 수 있습니다.' },
-          ].map((faq, idx) => (
-            <div key={idx} className="bg-gray-50 rounded-2xl p-6 hover:bg-gray-100 transition cursor-pointer">
-              <h3 className="font-semibold text-lg mb-2">Q. {faq.q}</h3>
-              <p className="text-gray-600">A. {faq.a}</p>
-            </div>
+            { id: '1', q: '배송은 얼마나 걸리나요?', a: '주문 후 2-3일 이내에 배송됩니다.' },
+            { id: '2', q: '반품/교환은 어떻게 하나요?', a: '제품 수령 후 14일 이내 무료 반품이 가능합니다.' },
+            { id: '3', q: '할부 결제가 가능한가요?', a: '네, 2-12개월 무이자 할부가 가능합니다.' },
+            { id: '4', q: '제품 보증기간은 어떻게 되나요?', a: '모든 제품은 1년 무상 보증이 제공됩니다.' },
+            { id: '5', q: '학생 할인이 있나요?', a: '학생증 제시 시 최대 20% 할인을 받으실 수 있습니다.' },
+          ].map((faq) => (
+            <a key={faq.id} href={`/faq-detail/${faq.id}`} className="block bg-gray-50 rounded-2xl p-6 hover:bg-gray-100 transition cursor-pointer">
+              <h3 className="font-semibold text-lg mb-2">{faq.q}</h3>
+              <p className="text-gray-600">{faq.a}</p>
+            </a>
           ))}
         </div>
 
@@ -130,14 +108,7 @@ export default function SupportPage() {
         </div>
       </div>
 
-      {/* 푸터 */}
-      <footer className="bg-gray-50 border-t border-gray-200 py-8">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center text-xs text-gray-600">
-            <p>Copyright © 2025 넷북몰. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

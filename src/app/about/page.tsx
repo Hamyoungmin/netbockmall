@@ -39,18 +39,6 @@ export default function AboutPage() {
         </div>
       </nav>
 
-      {/* 히어로 섹션 */}
-      <section className="bg-black text-white py-2 mb-6">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-2xl md:text-3xl font-semibold mb-1">
-            넷북몰 소개
-          </h1>
-          <p className="text-sm md:text-base text-gray-300 mb-2">
-            최고의 IT 제품을 제공합니다
-          </p>
-        </div>
-      </section>
-
       {/* 메인 콘텐츠 */}
       <div className="max-w-5xl mx-auto px-4 py-16">
         {/* 회사 소개 */}
@@ -70,19 +58,16 @@ export default function AboutPage() {
         {/* 핵심 가치 */}
         <div className="grid md:grid-cols-3 gap-8 mb-16">
           <div className="bg-blue-50 rounded-3xl p-8 text-center">
-            <div className="text-5xl mb-4">🎯</div>
             <h3 className="text-xl font-bold mb-3">최고의 품질</h3>
             <p className="text-gray-600">엄선된 제품만을 취급합니다</p>
           </div>
 
           <div className="bg-green-50 rounded-3xl p-8 text-center">
-            <div className="text-5xl mb-4">💎</div>
             <h3 className="text-xl font-bold mb-3">합리적인 가격</h3>
             <p className="text-gray-600">최상의 가성비를 제공합니다</p>
           </div>
 
           <div className="bg-purple-50 rounded-3xl p-8 text-center">
-            <div className="text-5xl mb-4">🤝</div>
             <h3 className="text-xl font-bold mb-3">고객 만족</h3>
             <p className="text-gray-600">언제나 고객을 최우선으로</p>
           </div>
@@ -114,26 +99,17 @@ export default function AboutPage() {
         <div className="bg-gray-50 rounded-3xl p-8">
           <h3 className="text-2xl font-bold mb-6">문의하기</h3>
           <div className="space-y-4">
-            <div className="flex items-center">
-              <span className="text-2xl mr-4">📞</span>
-              <div>
-                <div className="font-semibold">고객센터</div>
-                <div className="text-gray-600">1588-1234 (평일 9시-18시)</div>
-              </div>
+            <div>
+              <div className="font-semibold">고객센터</div>
+              <div className="text-gray-600">1588-1234 (평일 9시-18시)</div>
             </div>
-            <div className="flex items-center">
-              <span className="text-2xl mr-4">📧</span>
-              <div>
-                <div className="font-semibold">이메일</div>
-                <div className="text-gray-600">support@netbookmall.com</div>
-              </div>
+            <div>
+              <div className="font-semibold">이메일</div>
+              <div className="text-gray-600">support@netbookmall.com</div>
             </div>
-            <div className="flex items-center">
-              <span className="text-2xl mr-4">🏢</span>
-              <div>
-                <div className="font-semibold">본사</div>
-                <div className="text-gray-600">서울시 강남구 테헤란로 123</div>
-              </div>
+            <div>
+              <div className="font-semibold">본사</div>
+              <div className="text-gray-600">서울시 강남구 테헤란로 123</div>
             </div>
           </div>
         </div>

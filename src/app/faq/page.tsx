@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Footer from "@/components/Footer";
 
 export default function FAQPage() {
   return (
@@ -38,18 +39,6 @@ export default function FAQPage() {
           </div>
         </div>
       </nav>
-
-      {/* 히어로 섹션 */}
-      <section className="bg-black text-white py-2 mb-6">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-2xl md:text-3xl font-semibold mb-1">
-            FAQ
-          </h1>
-          <p className="text-sm md:text-base text-gray-300 mb-2">
-            자주 묻는 질문
-          </p>
-        </div>
-      </section>
 
       {/* 메인 콘텐츠 */}
       <div className="max-w-4xl mx-auto px-4 py-16">
@@ -128,9 +117,9 @@ export default function FAQPage() {
                 <span className="px-3 py-1 bg-blue-100 text-blue-600 text-xs font-semibold rounded-full mr-3">
                   {faq.category}
                 </span>
-                <h3 className="font-semibold text-lg flex-1">Q. {faq.q}</h3>
+                <h3 className="font-semibold text-lg flex-1">{faq.q}</h3>
               </div>
-              <p className="text-gray-600 ml-0 md:ml-20">A. {faq.a}</p>
+              <p className="text-gray-600 ml-0 md:ml-20">{faq.a}</p>
             </div>
           ))}
         </div>
@@ -150,14 +139,7 @@ export default function FAQPage() {
         </div>
       </div>
 
-      {/* 푸터 */}
-      <footer className="bg-gray-50 border-t border-gray-200 py-8">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center text-xs text-gray-600">
-            <p>Copyright © 2025 넷북몰. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
