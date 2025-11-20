@@ -4,8 +4,16 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Footer from "@/components/Footer";
 
+interface CartItem {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  image: string;
+}
+
 export default function CartPage() {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
