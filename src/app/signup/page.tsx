@@ -3,8 +3,73 @@
 import { useState } from "react";
 import Image from "next/image";
 import Footer from "@/components/Footer";
+import { supabase } from "@/lib/supabase";
 
 export default function SignupPage() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [agreed, setAgreed] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    // 유효성 검사
+    if (!name || !email || !password || !phone) {
+      setError("모든 필드를 입력해주세요.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
+    if (!agreed) {
+      setError("이용약관에 동의해주세요.");
+      return;
+    }
+
+    try {
+      // Supabase에 회원 정보 저장
+      const { data, error: insertError } = await supabase
+        .from('members')
+        .insert([
+          {
+            name,
+            email,
+            phone,
+            password, // 실제로는 암호화해야 하지만 일단 간단하게
+            grade: '일반',
+            status: '정상',
+            order_count: 0,
+            total_spent: 0
+          }
+        ])
+        .select();
+
+      if (insertError) {
+        if (insertError.code === '23505') { // unique constraint violation
+          setError("이미 가입된 이메일입니다.");
+        } else {
+          setError("회원가입에 실패했습니다: " + insertError.message);
+        }
+        return;
+      }
+
+      // 회원가입 성공
+      alert("회원가입이 완료되었습니다!");
+      window.location.href = '/login';
+    } catch (err) {
+      setError("회원가입 중 오류가 발생했습니다.");
+      console.error(err);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* 네비게이션 */}
@@ -33,11 +98,17 @@ export default function SignupPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                 </svg>
               </a>
-              <a href="/login" className="hover:text-gray-600">
+              <button 
+                onClick={() => {
+                  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+                  window.location.href = isLoggedIn ? '/account' : '/login';
+                }}
+                className="hover:text-gray-600"
+              >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -50,13 +121,22 @@ export default function SignupPage() {
             <p className="text-gray-600">넷북몰 회원이 되어보세요</p>
           </div>
 
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSignup}>
+            {error && (
+              <div className="bg-red-50 text-red-600 px-4 py-3 rounded-xl text-sm">
+                {error}
+              </div>
+            )}
+
             <div>
               <label className="block text-sm font-medium mb-2">이름</label>
               <input
                 type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="홍길동"
+                required
               />
             </div>
 
@@ -64,8 +144,11 @@ export default function SignupPage() {
               <label className="block text-sm font-medium mb-2">이메일</label>
               <input
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="example@email.com"
+                required
               />
             </div>
 
@@ -73,8 +156,11 @@ export default function SignupPage() {
               <label className="block text-sm font-medium mb-2">비밀번호</label>
               <input
                 type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="••••••••"
+                required
               />
             </div>
 
@@ -82,8 +168,11 @@ export default function SignupPage() {
               <label className="block text-sm font-medium mb-2">비밀번호 확인</label>
               <input
                 type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="••••••••"
+                required
               />
             </div>
 
@@ -91,13 +180,21 @@ export default function SignupPage() {
               <label className="block text-sm font-medium mb-2">전화번호</label>
               <input
                 type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="010-1234-5678"
+                required
               />
             </div>
 
             <div className="flex items-start">
-              <input type="checkbox" className="mr-2 mt-1" />
+              <input
+                type="checkbox"
+                checked={agreed}
+                onChange={(e) => setAgreed(e.target.checked)}
+                className="mr-2 mt-1"
+              />
               <label className="text-sm text-gray-600">
                 <span className="font-medium">이용약관</span> 및 <span className="font-medium">개인정보처리방침</span>에 동의합니다
               </label>

@@ -3,8 +3,51 @@
 import { useState } from "react";
 import Image from "next/image";
 import Footer from "@/components/Footer";
+import { supabase } from "@/lib/supabase";
 
 export default function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    try {
+      // Supabase에서 회원 정보 확인
+      const { data, error: queryError } = await supabase
+        .from('members')
+        .select('*')
+        .eq('email', email)
+        .eq('password', password)
+        .single();
+
+      if (queryError || !data) {
+        setError("이메일 또는 비밀번호가 일치하지 않습니다.");
+        return;
+      }
+
+      // 로그인 성공 시 localStorage에 저장
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('userEmail', email);
+      localStorage.setItem('userName', data.name);
+      
+      // 마지막 로그인 시간 업데이트
+      await supabase
+        .from('members')
+        .update({ last_login: new Date().toISOString() })
+        .eq('id', data.id);
+
+      // 홈으로 리다이렉트
+      alert(`환영합니다, ${data.name}님!`);
+      window.location.href = '/';
+    } catch (err) {
+      setError("로그인 중 오류가 발생했습니다.");
+      console.error(err);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* 네비게이션 */}
@@ -33,11 +76,17 @@ export default function LoginPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                 </svg>
               </a>
-              <a href="/login" className="hover:text-gray-600">
+              <button 
+                onClick={() => {
+                  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+                  window.location.href = isLoggedIn ? '/account' : '/login';
+                }}
+                className="hover:text-gray-600"
+              >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -50,13 +99,22 @@ export default function LoginPage() {
             <p className="text-gray-600">넷북몰에 오신 것을 환영합니다</p>
           </div>
 
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleLogin}>
+            {error && (
+              <div className="bg-red-50 text-red-600 px-4 py-3 rounded-xl text-sm">
+                {error}
+              </div>
+            )}
+            
             <div>
               <label className="block text-sm font-medium mb-2">이메일</label>
               <input
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="example@email.com"
+                required
               />
             </div>
 
@@ -64,8 +122,11 @@ export default function LoginPage() {
               <label className="block text-sm font-medium mb-2">비밀번호</label>
               <input
                 type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="••••••••"
+                required
               />
             </div>
 

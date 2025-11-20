@@ -1,14 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Footer from "@/components/Footer";
 
 export default function CartPage() {
-  const [cartItems, setCartItems] = useState([
-    { id: 1, name: 'MacBook Air 13" M3', price: 1590000, quantity: 1, image: '/mba_13_15_140e630d3_2x.jpg' },
-    { id: 2, name: 'Galaxy Buds3 Pro', price: 329000, quantity: 2, image: '/Rectangle 5.png' },
-  ]);
+  const [cartItems, setCartItems] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // 로그인 상태 체크 (localStorage에서 확인)
+    const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    setIsLoggedIn(loggedIn);
+  }, []);
 
   const updateQuantity = (id: number, newQuantity: number) => {
     if (newQuantity < 1) return;
@@ -51,11 +55,17 @@ export default function CartPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                 </svg>
               </a>
-              <a href="/login" className="hover:text-gray-600">
+              <button 
+                onClick={() => {
+                  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+                  window.location.href = isLoggedIn ? '/account' : '/login';
+                }}
+                className="hover:text-gray-600"
+              >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -71,9 +81,15 @@ export default function CartPage() {
             </svg>
             <h2 className="text-2xl font-semibold mb-4">장바구니가 비어있습니다</h2>
             <p className="text-gray-600 mb-8">원하는 상품을 장바구니에 담아보세요</p>
-            <a href="/store" className="inline-block bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition">
-              쇼핑 계속하기
-            </a>
+            {isLoggedIn ? (
+              <a href="/store" className="inline-block bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition">
+                쇼핑 계속하기
+              </a>
+            ) : (
+              <a href="/login" className="inline-block bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition">
+                로그인/회원가입 하기
+              </a>
+            )}
           </div>
         ) : (
           <div className="grid lg:grid-cols-3 gap-8">

@@ -36,6 +36,7 @@ CREATE TABLE members (
   id BIGSERIAL PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
   email VARCHAR(255) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
   phone VARCHAR(20),
   grade VARCHAR(50) DEFAULT '일반',
   status VARCHAR(50) DEFAULT '정상',

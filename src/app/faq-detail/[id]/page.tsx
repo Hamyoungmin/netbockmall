@@ -171,7 +171,13 @@ export default function FAQDetailPage() {
                   />
                 </svg>
               </a>
-              <a href="/login" className="hover:text-gray-600">
+              <button 
+                onClick={() => {
+                  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+                  window.location.href = isLoggedIn ? '/account' : '/login';
+                }}
+                className="hover:text-gray-600"
+              >
                 <svg
                   className="w-5 h-5"
                   fill="none"
@@ -185,7 +191,7 @@ export default function FAQDetailPage() {
                     d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                   />
                 </svg>
-              </a>
+              </button>
             </div>
           </div>
         </div>
