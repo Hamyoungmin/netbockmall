@@ -128,6 +128,68 @@ CREATE TABLE returns (
   processed_at TIMESTAMP WITH TIME ZONE
 );
 
+-- 10. 배송지 테이블
+CREATE TABLE addresses (
+  id BIGSERIAL PRIMARY KEY,
+  user_email VARCHAR(255) NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  phone VARCHAR(20) NOT NULL,
+  zipcode VARCHAR(10) NOT NULL,
+  address TEXT NOT NULL,
+  is_default BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- 11. 결제수단 테이블
+CREATE TABLE payment_methods (
+  id BIGSERIAL PRIMARY KEY,
+  user_email VARCHAR(255) NOT NULL,
+  card_number VARCHAR(16) NOT NULL,
+  card_name VARCHAR(100) NOT NULL,
+  expiry_date VARCHAR(5) NOT NULL,
+  is_default BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- 12. 위시리스트 테이블
+CREATE TABLE wishlists (
+  id BIGSERIAL PRIMARY KEY,
+  user_email VARCHAR(255) NOT NULL,
+  product_id BIGINT REFERENCES products(id) ON DELETE CASCADE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  UNIQUE(user_email, product_id)
+);
+
+-- 13. 최근 본 상품 테이블
+CREATE TABLE recently_viewed (
+  id BIGSERIAL PRIMARY KEY,
+  user_email VARCHAR(255) NOT NULL,
+  product_id BIGINT REFERENCES products(id) ON DELETE CASCADE,
+  viewed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- 14. 채팅 상담 테이블
+CREATE TABLE chat_messages (
+  id BIGSERIAL PRIMARY KEY,
+  session_id TEXT NOT NULL,
+  user_email VARCHAR(255),
+  user_name VARCHAR(100),
+  message TEXT NOT NULL,
+  sender_type VARCHAR(20) NOT NULL, -- 'user' or 'admin'
+  is_read BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE chat_sessions (
+  id TEXT PRIMARY KEY,
+  user_email VARCHAR(255),
+  user_name VARCHAR(100),
+  status VARCHAR(50) DEFAULT '대기중', -- 대기중, 상담중, 종료
+  last_message TEXT,
+  last_message_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 -- 샘플 데이터 삽입
 
 -- 상품 샘플
@@ -165,6 +227,8 @@ ALTER TABLE faqs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE coupons ENABLE ROW LEVEL SECURITY;
 ALTER TABLE shipping ENABLE ROW LEVEL SECURITY;
 ALTER TABLE returns ENABLE ROW LEVEL SECURITY;
+ALTER TABLE addresses ENABLE ROW LEVEL SECURITY;
+ALTER TABLE payment_methods ENABLE ROW LEVEL SECURITY;
 
 -- 모든 데이터 읽기 허용 (개발 단계에서만)
 CREATE POLICY "Enable read access for all users" ON products FOR SELECT USING (true);
@@ -176,6 +240,8 @@ CREATE POLICY "Enable read access for all users" ON faqs FOR SELECT USING (true)
 CREATE POLICY "Enable read access for all users" ON coupons FOR SELECT USING (true);
 CREATE POLICY "Enable read access for all users" ON shipping FOR SELECT USING (true);
 CREATE POLICY "Enable read access for all users" ON returns FOR SELECT USING (true);
+CREATE POLICY "Enable read access for all users" ON addresses FOR SELECT USING (true);
+CREATE POLICY "Enable read access for all users" ON payment_methods FOR SELECT USING (true);
 
 -- 모든 데이터 쓰기 허용 (개발 단계에서만 - 나중에 인증 추가 필요)
 CREATE POLICY "Enable insert for all users" ON products FOR INSERT WITH CHECK (true);
@@ -187,4 +253,31 @@ CREATE POLICY "Enable update for all users" ON orders FOR UPDATE USING (true);
 
 CREATE POLICY "Enable insert for all users" ON members FOR INSERT WITH CHECK (true);
 CREATE POLICY "Enable update for all users" ON members FOR UPDATE USING (true);
+
+CREATE POLICY "Enable insert for all users" ON addresses FOR INSERT WITH CHECK (true);
+CREATE POLICY "Enable update for all users" ON addresses FOR UPDATE USING (true);
+CREATE POLICY "Enable delete for all users" ON addresses FOR DELETE USING (true);
+
+CREATE POLICY "Enable insert for all users" ON payment_methods FOR INSERT WITH CHECK (true);
+CREATE POLICY "Enable update for all users" ON payment_methods FOR UPDATE USING (true);
+CREATE POLICY "Enable delete for all users" ON payment_methods FOR DELETE USING (true);
+
+-- 위시리스트 정책
+CREATE POLICY "Enable read access for all users" ON wishlists FOR SELECT USING (true);
+CREATE POLICY "Enable insert for all users" ON wishlists FOR INSERT WITH CHECK (true);
+CREATE POLICY "Enable delete for all users" ON wishlists FOR DELETE USING (true);
+
+-- 최근 본 상품 정책
+CREATE POLICY "Enable read access for all users" ON recently_viewed FOR SELECT USING (true);
+CREATE POLICY "Enable insert for all users" ON recently_viewed FOR INSERT WITH CHECK (true);
+CREATE POLICY "Enable delete for all users" ON recently_viewed FOR DELETE USING (true);
+
+-- 채팅 정책
+CREATE POLICY "Enable read access for all users" ON chat_messages FOR SELECT USING (true);
+CREATE POLICY "Enable insert for all users" ON chat_messages FOR INSERT WITH CHECK (true);
+CREATE POLICY "Enable update for all users" ON chat_messages FOR UPDATE USING (true);
+
+CREATE POLICY "Enable read access for all users" ON chat_sessions FOR SELECT USING (true);
+CREATE POLICY "Enable insert for all users" ON chat_sessions FOR INSERT WITH CHECK (true);
+CREATE POLICY "Enable update for all users" ON chat_sessions FOR UPDATE USING (true);
 

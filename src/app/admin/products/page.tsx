@@ -21,6 +21,18 @@ export default function AdminProductsPage() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+
+  // 폼 상태
+  const [formData, setFormData] = useState({
+    name: "",
+    category: "맥북",
+    price: "",
+    stock: "",
+    image_url: "",
+    description: "",
+    status: "판매중",
+  });
 
   const categories = ["all", "맥북", "노트북", "태블릿", "악세서리", "기타"];
 
@@ -66,6 +78,105 @@ export default function AdminProductsPage() {
     }
   };
 
+  // 모달 열기/닫기
+  const openAddModal = () => {
+    setEditingProduct(null);
+    setFormData({
+      name: "",
+      category: "맥북",
+      price: "",
+      stock: "",
+      image_url: "",
+      description: "",
+      status: "판매중",
+    });
+    setShowAddModal(true);
+  };
+
+  const openEditModal = (product: Product) => {
+    setEditingProduct(product);
+    setFormData({
+      name: product.name,
+      category: product.category,
+      price: product.price.toString(),
+      stock: product.stock.toString(),
+      image_url: product.image_url,
+      description: "",
+      status: product.status,
+    });
+    setShowAddModal(true);
+  };
+
+  const closeModal = () => {
+    setShowAddModal(false);
+    setEditingProduct(null);
+    setFormData({
+      name: "",
+      category: "맥북",
+      price: "",
+      stock: "",
+      image_url: "",
+      description: "",
+      status: "판매중",
+    });
+  };
+
+  // 상품 추가/수정
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!formData.name || !formData.price || !formData.stock || !formData.image_url) {
+      alert("모든 필수 항목을 입력해주세요.");
+      return;
+    }
+
+    try {
+      const productData = {
+        name: formData.name,
+        category: formData.category,
+        price: parseInt(formData.price),
+        stock: parseInt(formData.stock),
+        image_url: formData.image_url,
+        description: formData.description,
+        status: formData.status,
+      };
+
+      if (editingProduct) {
+        // 수정
+        const { error } = await supabase
+          .from("products")
+          .update(productData)
+          .eq("id", editingProduct.id);
+
+        if (error) throw error;
+        alert("상품이 수정되었습니다.");
+      } else {
+        // 추가
+        const { error } = await supabase
+          .from("products")
+          .insert([productData]);
+
+        if (error) throw error;
+        alert("상품이 추가되었습니다.");
+      }
+
+      closeModal();
+      fetchProducts();
+    } catch (error) {
+      console.error("저장 오류:", error);
+      alert("저장에 실패했습니다.");
+    }
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   const filteredProducts = products.filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === "all" || product.category === selectedCategory;
@@ -95,7 +206,7 @@ export default function AdminProductsPage() {
             <p className="text-gray-600 mt-1">총 {products.length}개의 상품</p>
           </div>
           <button 
-            onClick={() => setShowAddModal(true)}
+            onClick={openAddModal}
             className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition font-medium flex items-center space-x-2"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -213,7 +324,10 @@ export default function AdminProductsPage() {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center space-x-2">
-                        <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition">
+                        <button 
+                          onClick={() => openEditModal(product)}
+                          className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition"
+                        >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                           </svg>
@@ -254,74 +368,157 @@ export default function AdminProductsPage() {
         </div>
       </div>
 
-      {/* 상품 추가 모달 (간단한 구현) */}
+      {/* 상품 추가/수정 모달 */}
       {showAddModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold">상품 추가</h2>
-              <button onClick={() => setShowAddModal(false)} className="text-gray-400 hover:text-gray-600">
+              <h2 className="text-2xl font-bold">
+                {editingProduct ? "상품 수정" : "상품 추가"}
+              </h2>
+              <button onClick={closeModal} className="text-gray-400 hover:text-gray-600">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
             
-            <div className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">상품명</label>
-                <input type="text" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  상품명 <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                  placeholder="예: MacBook Air 13"
+                />
               </div>
               
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">카테고리</label>
-                  <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    카테고리 <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    name="category"
+                    value={formData.category}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                  >
                     <option>맥북</option>
                     <option>노트북</option>
                     <option>태블릿</option>
                     <option>악세서리</option>
+                    <option>기타</option>
                   </select>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">가격</label>
-                  <input type="number" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    가격 (원) <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    name="price"
+                    value={formData.price}
+                    onChange={handleInputChange}
+                    required
+                    min="0"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                    placeholder="1590000"
+                  />
                 </div>
               </div>
               
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">재고 수량</label>
-                <input type="number" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">상품 설명</label>
-                <textarea rows={4} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">상품 이미지</label>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-500 transition cursor-pointer">
-                  <svg className="w-12 h-12 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                  </svg>
-                  <p className="text-sm text-gray-600">클릭하여 이미지 업로드</p>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    재고 수량 <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    name="stock"
+                    value={formData.stock}
+                    onChange={handleInputChange}
+                    required
+                    min="0"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                    placeholder="10"
+                  />
                 </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    판매 상태 <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    name="status"
+                    value={formData.status}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                  >
+                    <option>판매중</option>
+                    <option>품절</option>
+                    <option>판매중지</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  이미지 URL <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="image_url"
+                  value={formData.image_url}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                  placeholder="/mba_13_15_140e630d3_2x.jpg"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  public 폴더에 이미지를 업로드하고 경로를 입력하세요. (예: /image.jpg)
+                </p>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  상품 설명
+                </label>
+                <textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleInputChange}
+                  rows={4}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                  placeholder="상품에 대한 자세한 설명을 입력하세요..."
+                ></textarea>
               </div>
               
               <div className="flex justify-end space-x-3 pt-4">
                 <button 
-                  onClick={() => setShowAddModal(false)}
+                  type="button"
+                  onClick={closeModal}
                   className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
                 >
                   취소
                 </button>
-                <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-                  저장
+                <button
+                  type="submit"
+                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                >
+                  {editingProduct ? "수정" : "저장"}
                 </button>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       )}

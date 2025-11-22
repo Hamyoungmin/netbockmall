@@ -28,38 +28,61 @@ export default function AddressesPage() {
 
   const fetchAddresses = async () => {
     const userEmail = localStorage.getItem('userEmail');
-    // 임시로 localStorage에 저장
-    const saved = localStorage.getItem(`addresses_${userEmail}`);
-    if (saved) {
-      setAddresses(JSON.parse(saved));
+    
+    const { data, error } = await supabase
+      .from('addresses')
+      .select('*')
+      .eq('user_email', userEmail)
+      .order('created_at', { ascending: false });
+
+    if (data) {
+      setAddresses(data);
     }
     setLoading(false);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const userEmail = localStorage.getItem('userEmail');
-    const newAddress = {
-      id: Date.now(),
-      ...formData
-    };
 
-    const updated = [...addresses, newAddress];
-    setAddresses(updated);
-    localStorage.setItem(`addresses_${userEmail}`, JSON.stringify(updated));
+    const { error } = await supabase
+      .from('addresses')
+      .insert([
+        {
+          user_email: userEmail,
+          name: formData.name,
+          phone: formData.phone,
+          zipcode: formData.zipcode,
+          address: formData.address,
+          is_default: formData.isDefault
+        }
+      ]);
 
+    if (error) {
+      alert('배송지 추가에 실패했습니다.');
+      return;
+    }
+
+    alert('배송지가 추가되었습니다!');
     setFormData({ name: "", phone: "", address: "", zipcode: "", isDefault: false });
     setShowForm(false);
-    alert('배송지가 추가되었습니다!');
+    fetchAddresses();
   };
 
-  const deleteAddress = (id: number) => {
+  const deleteAddress = async (id: number) => {
     if (!confirm('이 배송지를 삭제하시겠습니까?')) return;
-    
-    const userEmail = localStorage.getItem('userEmail');
-    const updated = addresses.filter(addr => addr.id !== id);
-    setAddresses(updated);
-    localStorage.setItem(`addresses_${userEmail}`, JSON.stringify(updated));
+
+    const { error } = await supabase
+      .from('addresses')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      alert('삭제에 실패했습니다.');
+      return;
+    }
+
+    fetchAddresses();
   };
 
   if (loading) {
@@ -207,7 +230,7 @@ export default function AddressesPage() {
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-3">
                       <h3 className="text-xl font-bold">{addr.name}</h3>
-                      {addr.isDefault && (
+                      {addr.is_default && (
                         <span className="px-3 py-1 bg-blue-100 text-blue-600 text-xs font-semibold rounded-full">
                           기본 배송지
                         </span>
@@ -233,4 +256,3 @@ export default function AddressesPage() {
     </div>
   );
 }
-

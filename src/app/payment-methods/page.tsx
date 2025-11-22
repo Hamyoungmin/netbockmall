@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
 import Footer from "@/components/Footer";
 
 export default function PaymentMethodsPage() {
@@ -24,11 +25,17 @@ export default function PaymentMethodsPage() {
     fetchCards();
   }, []);
 
-  const fetchCards = () => {
+  const fetchCards = async () => {
     const userEmail = localStorage.getItem('userEmail');
-    const saved = localStorage.getItem(`cards_${userEmail}`);
-    if (saved) {
-      setCards(JSON.parse(saved));
+    
+    const { data, error } = await supabase
+      .from('payment_methods')
+      .select('*')
+      .eq('user_email', userEmail)
+      .order('created_at', { ascending: false });
+
+    if (data) {
+      setCards(data);
     }
     setLoading(false);
   };
@@ -37,32 +44,47 @@ export default function PaymentMethodsPage() {
     return cardNumber.replace(/(\d{4})(\d{4})(\d{4})(\d{4})/, '$1-****-****-$4');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const userEmail = localStorage.getItem('userEmail');
-    
-    const newCard = {
-      id: Date.now(),
-      ...formData,
-      maskedNumber: maskCardNumber(formData.cardNumber)
-    };
 
-    const updated = [...cards, newCard];
-    setCards(updated);
-    localStorage.setItem(`cards_${userEmail}`, JSON.stringify(updated));
+    const { error } = await supabase
+      .from('payment_methods')
+      .insert([
+        {
+          user_email: userEmail,
+          card_number: formData.cardNumber,
+          card_name: formData.cardName,
+          expiry_date: formData.expiryDate,
+          is_default: formData.isDefault
+        }
+      ]);
 
+    if (error) {
+      alert('카드 등록에 실패했습니다.');
+      return;
+    }
+
+    alert('카드가 등록되었습니다!');
     setFormData({ cardNumber: "", cardName: "", expiryDate: "", isDefault: false });
     setShowForm(false);
-    alert('카드가 등록되었습니다!');
+    fetchCards();
   };
 
-  const deleteCard = (id: number) => {
+  const deleteCard = async (id: number) => {
     if (!confirm('이 카드를 삭제하시겠습니까?')) return;
-    
-    const userEmail = localStorage.getItem('userEmail');
-    const updated = cards.filter(card => card.id !== id);
-    setCards(updated);
-    localStorage.setItem(`cards_${userEmail}`, JSON.stringify(updated));
+
+    const { error } = await supabase
+      .from('payment_methods')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      alert('삭제에 실패했습니다.');
+      return;
+    }
+
+    fetchCards();
   };
 
   if (loading) {
@@ -215,14 +237,14 @@ export default function PaymentMethodsPage() {
               <div key={card.id} className="bg-gradient-to-br from-blue-500 to-purple-600 text-white rounded-3xl p-6 hover:shadow-xl transition">
                 <div className="flex items-start justify-between mb-4">
                   <div>
-                    {card.isDefault && (
+                    {card.is_default && (
                       <span className="px-3 py-1 bg-white/20 text-white text-xs font-semibold rounded-full mb-2 inline-block">
                         기본 카드
                       </span>
                     )}
-                    <h3 className="text-2xl font-bold mb-2">{card.maskedNumber}</h3>
-                    <p className="text-white/80">{card.cardName}</p>
-                    <p className="text-white/80 text-sm">유효기간: {card.expiryDate}</p>
+                    <h3 className="text-2xl font-bold mb-2">{maskCardNumber(card.card_number)}</h3>
+                    <p className="text-white/80">{card.card_name}</p>
+                    <p className="text-white/80 text-sm">유효기간: {card.expiry_date}</p>
                   </div>
                   <button
                     onClick={() => deleteCard(card.id)}
@@ -246,4 +268,3 @@ export default function PaymentMethodsPage() {
     </div>
   );
 }
-

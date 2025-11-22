@@ -1,9 +1,47 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Footer from "@/components/Footer";
+import { supabase } from "@/lib/supabase";
+
+interface Product {
+  id: number;
+  name: string;
+  category: string;
+  price: number;
+  stock: number;
+  image_url: string;
+  description?: string;
+  status: string;
+}
 
 export default function TabletPage() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .eq("category", "태블릿")
+        .eq("status", "판매중")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      setProducts(data || []);
+    } catch (error) {
+      console.error("제품을 불러오는데 실패했습니다:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
       {/* 네비게이션 */}
@@ -72,37 +110,55 @@ export default function TabletPage() {
 
       {/* 제품 목록 */}
       <div className="max-w-7xl mx-auto px-4 py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {[
-            { name: 'Lenovo Tab P12 Pro', price: '₩1,290,000', desc: '12.6인치 AMOLED, Snapdragon 870', image: '/6ecdc07f-96ca-4bdf-bb97-73520ec62f0d.jpg' },
-            { name: 'Samsung Galaxy Tab S9 FE', price: '₩729,000', desc: '10.9인치, Exynos 1380, S펜 포함', image: '/0046070050__ZAE40029KR__M_640_640.jpg' },
-            { name: 'iPad Air 11" M2', price: '₩899,000', desc: 'M2 칩, 11인치 Liquid Retina', image: '/f68db29bf3cdfc2f75b82ea78f60b297.jpg' },
-            { name: 'Xiaomi Pad 6 Pro', price: '₩689,000', desc: '11인치, Snapdragon 8+ Gen 1', image: '/36375_32275_120.jpg' },
-            { name: 'Lenovo Tab M10 Plus', price: '₩449,000', desc: '10.6인치 FHD+, MediaTek Helio G80', image: '/2023110110193994100_l.jpg' },
-            { name: 'Galaxy Tab A9+', price: '₩379,000', desc: '11인치, Snapdragon 695, 5G 지원', image: '/images.jpg' },
-          ].map((product, idx) => (
-            <div key={idx} className="bg-gray-50 rounded-3xl p-6 hover:shadow-xl transition-all cursor-pointer">
-              <div className="aspect-square bg-white rounded-2xl mb-6 flex items-center justify-center overflow-hidden relative">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
-              <p className="text-gray-600 text-sm mb-4">{product.desc}</p>
-              <p className="text-2xl font-bold text-purple-600 mb-4">{product.price}</p>
-              <button className="w-full bg-purple-600 text-white py-3 rounded-full hover:bg-purple-700 transition">
-                구매하기
-              </button>
-            </div>
-          ))}
-        </div>
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">제품을 불러오는 중...</p>
+          </div>
+        ) : products.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-600 text-lg">등록된 태블릿 제품이 없습니다.</p>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {products.map((product) => (
+              <a
+                key={product.id}
+                href={`/product/${product.id}`}
+                className="bg-gray-50 rounded-3xl p-6 hover:shadow-xl transition-all cursor-pointer"
+              >
+                <div className="aspect-square bg-white rounded-2xl mb-6 flex items-center justify-center overflow-hidden relative">
+                  <Image
+                    src={product.image_url}
+                    alt={product.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
+                {product.description && (
+                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                    {product.description}
+                  </p>
+                )}
+                <p className="text-2xl font-bold text-purple-600 mb-4">
+                  ₩{product.price.toLocaleString()}
+                </p>
+                <div className="flex items-center justify-between">
+                  <span className={`text-sm ${product.stock > 0 ? "text-green-600" : "text-red-600"}`}>
+                    {product.stock > 0 ? `재고 ${product.stock}개` : "품절"}
+                  </span>
+                  <button className="bg-purple-600 text-white px-6 py-2 rounded-full hover:bg-purple-700 transition">
+                    구매하기
+                  </button>
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
       </div>
 
       <Footer />
     </div>
   );
 }
-

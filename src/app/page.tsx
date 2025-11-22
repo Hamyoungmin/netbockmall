@@ -1,12 +1,49 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import SearchModal from "@/components/SearchModal";
 import Footer from "@/components/Footer";
+import ChatWidget from "@/components/ChatWidget";
+import { supabase } from "@/lib/supabase";
+
+interface Product {
+  id: number;
+  name: string;
+  category: string;
+  price: number;
+  stock: number;
+  image_url: string;
+  description?: string;
+  status: string;
+}
 
 export default function Home() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchFeaturedProducts();
+  }, []);
+
+  const fetchFeaturedProducts = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .eq("status", "판매중")
+        .order("created_at", { ascending: false })
+        .limit(8);
+
+      if (error) throw error;
+      setFeaturedProducts(data || []);
+    } catch (error) {
+      console.error("제품을 불러오는데 실패했습니다:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -118,27 +155,37 @@ export default function Home() {
           <span className="text-orange-600">필수아이템</span>. 매일 들고 이동합니다.
         </h2>
         
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { name: 'Galaxy Buds3 Pro', price: '₩329,000', image: '/Rectangle 5.png' },
-            { name: 'AirTag', price: '₩45,000', image: '/Rectangle 6.png' },
-            { name: 'SmartWatch Ultra 2', price: '₩1,149,000', image: '/Rectangle 7.png' },
-            { name: 'Premium 헤드폰 - 레드', price: '₩799,000', image: '/Rectangle 8.png' }
-          ].map((item, idx) => (
-            <div key={idx} className="bg-gray-50 rounded-3xl p-6 hover:shadow-lg transition-shadow cursor-pointer">
-              <div className="aspect-square bg-white rounded-2xl flex items-center justify-center mb-4 overflow-hidden relative">
-                <Image
-                  src={item.image}
-                  alt={item.name}
-                  fill
-                  className="object-contain p-4"
-                />
-              </div>
-              <h3 className="font-semibold text-sm mb-1">{item.name}</h3>
-              <p className="text-xs text-gray-600">{item.price}</p>
-            </div>
-          ))}
-        </div>
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">제품을 불러오는 중...</p>
+          </div>
+        ) : featuredProducts.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-600 text-lg">등록된 제품이 없습니다.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {featuredProducts.slice(0, 4).map((item) => (
+              <a
+                key={item.id}
+                href={`/product/${item.id}`}
+                className="bg-gray-50 rounded-3xl p-6 hover:shadow-lg transition-shadow cursor-pointer"
+              >
+                <div className="aspect-square bg-white rounded-2xl flex items-center justify-center mb-4 overflow-hidden relative">
+                  <Image
+                    src={item.image_url}
+                    alt={item.name}
+                    fill
+                    className="object-contain p-4"
+                  />
+                </div>
+                <h3 className="font-semibold text-sm mb-1 line-clamp-2">{item.name}</h3>
+                <p className="text-xs text-gray-600">₩{item.price.toLocaleString()}</p>
+              </a>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* 스토어 제품 */}
@@ -195,46 +242,37 @@ export default function Home() {
           <span className="text-green-600">간단한 선택</span>. 크나큰 고마움을 부담 없이 표현하는 법.
         </h2>
         
-        <div className="grid md:grid-cols-3 gap-4">
-          <div className="bg-gray-50 rounded-3xl p-8 hover:shadow-lg transition-shadow cursor-pointer">
-            <div className="aspect-square bg-white rounded-2xl flex items-center justify-center mb-4 overflow-hidden relative">
-              <Image
-                src="/Rectangle 9.png"
-                alt="MagSafe형 iPhone 15 실리콘 케이스"
-                fill
-                className="object-cover"
-              />
-            </div>
-            <h3 className="font-semibold text-sm mb-1">MagSafe형 iPhone 15 실리콘 케이스 - 사이프러스</h3>
-            <p className="text-xs text-gray-600">₩69,000</p>
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">제품을 불러오는 중...</p>
           </div>
-          
-          <div className="bg-gray-50 rounded-3xl p-8 hover:shadow-lg transition-shadow cursor-pointer">
-            <div className="aspect-square bg-white rounded-2xl flex items-center justify-center mb-4 overflow-hidden relative">
-              <Image
-                src="/Rectangle 35.png"
-                alt="45mm 라이트 핑크 스포츠 루프"
-                fill
-                className="object-cover"
-              />
-            </div>
-            <h3 className="font-semibold text-sm mb-1">45mm 라이트 핑크 스포츠 루프</h3>
-            <p className="text-xs text-gray-600">₩65,000</p>
+        ) : featuredProducts.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-600 text-lg">등록된 제품이 없습니다.</p>
           </div>
-          
-          <div className="bg-gray-50 rounded-3xl p-8 hover:shadow-lg transition-shadow cursor-pointer">
-            <div className="aspect-square bg-white rounded-2xl flex items-center justify-center mb-4 overflow-hidden relative">
-              <Image
-                src="/Rectangle 36.png"
-                alt="AirTag 가죽 키링"
-                fill
-                className="object-cover"
-              />
-            </div>
-            <h3 className="font-semibold text-sm mb-1">AirTag 가죽 키링 - 브라운</h3>
-            <p className="text-xs text-gray-600">₩55,000</p>
+        ) : (
+          <div className="grid md:grid-cols-3 gap-4">
+            {featuredProducts.slice(4, 7).map((product) => (
+              <a
+                key={product.id}
+                href={`/product/${product.id}`}
+                className="bg-gray-50 rounded-3xl p-8 hover:shadow-lg transition-shadow cursor-pointer"
+              >
+                <div className="aspect-square bg-white rounded-2xl flex items-center justify-center mb-4 overflow-hidden relative">
+                  <Image
+                    src={product.image_url}
+                    alt={product.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <h3 className="font-semibold text-sm mb-1 line-clamp-2">{product.name}</h3>
+                <p className="text-xs text-gray-600">₩{product.price.toLocaleString()}</p>
+              </a>
+            ))}
           </div>
-        </div>
+        )}
       </section>
 
       {/* 특별 제공 */}
@@ -395,6 +433,9 @@ export default function Home() {
       </section>
 
       <Footer />
+      
+      {/* 실시간 채팅 위젯 */}
+      <ChatWidget />
     </div>
   );
 }

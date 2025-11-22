@@ -1,9 +1,46 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Footer from "@/components/Footer";
+import { supabase } from "@/lib/supabase";
+
+interface Product {
+  id: number;
+  name: string;
+  category: string;
+  price: number;
+  stock: number;
+  image_url: string;
+  description?: string;
+  status: string;
+}
 
 export default function MacbookPage() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .eq("category", "맥북")
+        .eq("status", "판매중")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      setProducts(data || []);
+    } catch (error) {
+      console.error("제품을 불러오는데 실패했습니다:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="min-h-screen bg-white">
       {/* 네비게이션 */}
@@ -72,33 +109,52 @@ export default function MacbookPage() {
 
       {/* 제품 목록 */}
       <div className="max-w-7xl mx-auto px-4 py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {[
-            { name: 'MacBook Air 13" M3', price: '₩1,590,000', desc: '8코어 CPU, 8GB 통합메모리, 256GB SSD', image: '/mba_13_15_140e630d3_2x.jpg' },
-            { name: 'MacBook Air 15" M3', price: '₩1,890,000', desc: '8코어 CPU, 16GB 통합메모리, 512GB SSD', image: '/macbook-air-og-202503.jpg' },
-            { name: 'MacBook Pro 14" M3', price: '₩2,390,000', desc: '8코어 CPU, 10코어 GPU, 512GB SSD', image: '/a548918e67ad45723edcc50c4494bebf.jpg' },
-            { name: 'MacBook Pro 14" M3 Pro', price: '₩3,190,000', desc: '11코어 CPU, 14코어 GPU, 1TB SSD', image: '/22711-54083-sample.jpg' },
-            { name: 'MacBook Pro 16" M3 Max', price: '₩4,990,000', desc: '14코어 CPU, 30코어 GPU, 1TB SSD', image: '/refurb-mbp16touch-silver-gallery-2019_GEO_KR.jpg' },
-            { name: 'MacBook Pro 16" M3 Max', price: '₩5,990,000', desc: '16코어 CPU, 40코어 GPU, 2TB SSD', image: '/2017111644391181.png' },
-          ].map((product, idx) => (
-            <div key={idx} className="bg-gray-50 rounded-3xl p-6 hover:shadow-xl transition-all cursor-pointer">
-              <div className="aspect-video bg-white rounded-2xl mb-6 flex items-center justify-center overflow-hidden relative">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
-              <p className="text-gray-600 text-sm mb-4">{product.desc}</p>
-              <p className="text-2xl font-bold text-blue-600 mb-4">{product.price}</p>
-              <button className="w-full bg-blue-600 text-white py-3 rounded-full hover:bg-blue-700 transition">
-                구매하기
-              </button>
-            </div>
-          ))}
-        </div>
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">제품을 불러오는 중...</p>
+          </div>
+        ) : products.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-600 text-lg">등록된 맥북 제품이 없습니다.</p>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {products.map((product) => (
+              <a
+                key={product.id}
+                href={`/product/${product.id}`}
+                className="bg-gray-50 rounded-3xl p-6 hover:shadow-xl transition-all cursor-pointer"
+              >
+                <div className="aspect-video bg-white rounded-2xl mb-6 flex items-center justify-center overflow-hidden relative">
+                  <Image
+                    src={product.image_url}
+                    alt={product.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
+                {product.description && (
+                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                    {product.description}
+                  </p>
+                )}
+                <p className="text-2xl font-bold text-blue-600 mb-4">
+                  ₩{product.price.toLocaleString()}
+                </p>
+                <div className="flex items-center justify-between">
+                  <span className={`text-sm ${product.stock > 0 ? "text-green-600" : "text-red-600"}`}>
+                    {product.stock > 0 ? `재고 ${product.stock}개` : "품절"}
+                  </span>
+                  <button className="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition">
+                    구매하기
+                  </button>
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
       </div>
 
       <Footer />

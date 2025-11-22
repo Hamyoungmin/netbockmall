@@ -1,9 +1,47 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Footer from "@/components/Footer";
+import { supabase } from "@/lib/supabase";
+
+interface Product {
+  id: number;
+  name: string;
+  category: string;
+  price: number;
+  stock: number;
+  image_url: string;
+  description?: string;
+  status: string;
+}
 
 export default function AccessoriesPage() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .eq("category", "악세서리")
+        .eq("status", "판매중")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      setProducts(data || []);
+    } catch (error) {
+      console.error("제품을 불러오는데 실패했습니다:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
       {/* 네비게이션 */}
@@ -70,83 +108,54 @@ export default function AccessoriesPage() {
         </div>
       </section>
 
-      {/* 카테고리별 제품 */}
+      {/* 제품 목록 */}
       <div className="max-w-7xl mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold mb-8">이어폰</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {[
-            { name: '블루투스 이어폰', price: '₩89,000', image: '/1667192556000_블루투스 이어폰_커널형.png' },
-            { name: 'Britz 무선 이어폰', price: '₩129,000', image: '/0048341150__BZ-ER3__M_640_640.jpg' },
-            { name: '프리미엄 이어버드', price: '₩159,000', image: '/88502490015.2.jpg' },
-            { name: '스포츠 블루투스 이어폰', price: '₩79,000', image: '/XL.jpg' },
-            { name: 'TWS 이어폰', price: '₩99,000', image: '/54484793_1.avif' },
-            { name: '무선 이어폰', price: '₩149,000', image: '/Rectangle 5.png' },
-            { name: '프리미엄 헤드폰', price: '₩289,000', image: '/Rectangle 8.png' },
-          ].map((product, idx) => (
-            <div key={idx} className="bg-gray-50 rounded-2xl p-6 hover:shadow-lg transition-all cursor-pointer">
-              <div className="aspect-square bg-white rounded-xl mb-4 flex items-center justify-center overflow-hidden relative">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <h3 className="font-semibold mb-2">{product.name}</h3>
-              <p className="text-lg font-bold text-orange-600">{product.price}</p>
-            </div>
-          ))}
-        </div>
-
-        <h2 className="text-3xl font-bold mb-8">케이스 & 보호 액세서리</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {[
-            { name: 'MagSafe 케이스', price: '₩69,000', image: '/Rectangle 9.png' },
-            { name: '노트북 파우치', price: '₩45,000', image: '/Rectangle 35.png' },
-            { name: '태블릿 키보드', price: '₩459,000', image: '/Rectangle 38.png' },
-            { name: 'Apple Pencil', price: '₩199,000', image: '/Rectangle 36.png' },
-          ].map((product, idx) => (
-            <div key={idx} className="bg-gray-50 rounded-2xl p-6 hover:shadow-lg transition-all cursor-pointer">
-              <div className="aspect-square bg-white rounded-xl mb-4 flex items-center justify-center overflow-hidden relative">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <h3 className="font-semibold mb-2">{product.name}</h3>
-              <p className="text-lg font-bold text-orange-600">{product.price}</p>
-            </div>
-          ))}
-        </div>
-
-        <h2 className="text-3xl font-bold mb-8">충전 & 케이블</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[
-            { name: 'MagSafe 충전기', price: '₩59,000', image: '/Rectangle 6.png' },
-            { name: 'USB-C 케이블', price: '₩29,000', image: '/Rectangle 6.png' },
-            { name: '67W 충전 어댑터', price: '₩89,000', image: '/Rectangle 7.png' },
-            { name: '무선 충전 패드', price: '₩69,000', image: '/Rectangle 7.png' },
-          ].map((product, idx) => (
-            <div key={idx} className="bg-gray-50 rounded-2xl p-6 hover:shadow-lg transition-all cursor-pointer">
-              <div className="aspect-square bg-white rounded-xl mb-4 flex items-center justify-center overflow-hidden relative">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <h3 className="font-semibold mb-2">{product.name}</h3>
-              <p className="text-lg font-bold text-orange-600">{product.price}</p>
-            </div>
-          ))}
-        </div>
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">제품을 불러오는 중...</p>
+          </div>
+        ) : products.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-600 text-lg">등록된 악세서리 제품이 없습니다.</p>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {products.map((product) => (
+              <a
+                key={product.id}
+                href={`/product/${product.id}`}
+                className="bg-gray-50 rounded-2xl p-6 hover:shadow-lg transition-all cursor-pointer"
+              >
+                <div className="aspect-square bg-white rounded-xl mb-4 flex items-center justify-center overflow-hidden relative">
+                  <Image
+                    src={product.image_url}
+                    alt={product.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <h3 className="font-semibold mb-2 line-clamp-2">{product.name}</h3>
+                {product.description && (
+                  <p className="text-sm text-gray-600 mb-2 line-clamp-1">
+                    {product.description}
+                  </p>
+                )}
+                <div className="flex items-center justify-between">
+                  <p className="text-lg font-bold text-orange-600">
+                    ₩{product.price.toLocaleString()}
+                  </p>
+                  <span className={`text-xs ${product.stock > 0 ? "text-green-600" : "text-red-600"}`}>
+                    {product.stock > 0 ? `재고 ${product.stock}개` : "품절"}
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
       </div>
 
       <Footer />
     </div>
   );
 }
-

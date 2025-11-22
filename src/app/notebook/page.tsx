@@ -1,9 +1,47 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Footer from "@/components/Footer";
+import { supabase } from "@/lib/supabase";
+
+interface Product {
+  id: number;
+  name: string;
+  category: string;
+  price: number;
+  stock: number;
+  image_url: string;
+  description?: string;
+  status: string;
+}
 
 export default function NotebookPage() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .eq("category", "노트북")
+        .eq("status", "판매중")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      setProducts(data || []);
+    } catch (error) {
+      console.error("제품을 불러오는데 실패했습니다:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
       {/* 네비게이션 */}
@@ -72,37 +110,55 @@ export default function NotebookPage() {
 
       {/* 제품 목록 */}
       <div className="max-w-7xl mx-auto px-4 py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {[
-            { name: '삼성 갤럭시북4 프로', price: '₩2,190,000', desc: 'Intel Core Ultra 7, 16인치', image: '/1435_2025031921540423.jpg' },
-            { name: '삼성 갤럭시북4 울트라', price: '₩2,590,000', desc: 'Intel Core Ultra 9, 16인치 AMOLED', image: '/2120_3030_532.jpg' },
-            { name: '삼성 갤럭시북4', price: '₩1,290,000', desc: 'Intel Core 5, 15.6인치', image: '/made-in-china.webp' },
-            { name: '삼성 갤럭시북3 프로 360', price: '₩2,490,000', desc: 'Intel i7, 16인치 2-in-1', image: '/image_readtop_2020_925135_15995052644345695.jpg' },
-            { name: '삼성 갤럭시북3 울트라', price: '₩2,790,000', desc: 'Intel i7, 16인치 AMOLED', image: '/레노버-2022-아이디어패드-노트북Arctic-Grey-·-SLIM3-15ITL6.png' },
-            { name: '삼성 갤럭시북2 프로', price: '₩1,890,000', desc: 'Intel i5, 15.6인치', image: '/MuwaDiz-FZztF8P-aJSdosnAg8YxDDHtDQNjwrRlDMcxWUFpdv9SXaf3Y4lXe_NJtNd_9nd0DNDuDx-6LNg2hg.webp' },
-          ].map((product, idx) => (
-            <div key={idx} className="bg-gray-50 rounded-3xl p-6 hover:shadow-xl transition-all cursor-pointer">
-              <div className="aspect-video bg-white rounded-2xl mb-6 flex items-center justify-center overflow-hidden relative">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
-              <p className="text-gray-600 text-sm mb-4">{product.desc}</p>
-              <p className="text-2xl font-bold text-blue-600 mb-4">{product.price}</p>
-              <button className="w-full bg-blue-600 text-white py-3 rounded-full hover:bg-blue-700 transition">
-                구매하기
-              </button>
-            </div>
-          ))}
-        </div>
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">제품을 불러오는 중...</p>
+          </div>
+        ) : products.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-600 text-lg">등록된 노트북 제품이 없습니다.</p>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {products.map((product) => (
+              <a
+                key={product.id}
+                href={`/product/${product.id}`}
+                className="bg-gray-50 rounded-3xl p-6 hover:shadow-xl transition-all cursor-pointer"
+              >
+                <div className="aspect-video bg-white rounded-2xl mb-6 flex items-center justify-center overflow-hidden relative">
+                  <Image
+                    src={product.image_url}
+                    alt={product.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
+                {product.description && (
+                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                    {product.description}
+                  </p>
+                )}
+                <p className="text-2xl font-bold text-blue-600 mb-4">
+                  ₩{product.price.toLocaleString()}
+                </p>
+                <div className="flex items-center justify-between">
+                  <span className={`text-sm ${product.stock > 0 ? "text-green-600" : "text-red-600"}`}>
+                    {product.stock > 0 ? `재고 ${product.stock}개` : "품절"}
+                  </span>
+                  <button className="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition">
+                    구매하기
+                  </button>
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
       </div>
 
       <Footer />
     </div>
   );
 }
-

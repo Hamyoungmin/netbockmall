@@ -232,21 +232,15 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* 매출 그래프 (간단한 차트) */}
+        {/* 매출 그래프 */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-6">주간 매출 현황</h2>
-          <div className="flex items-end justify-between h-64 space-x-4">
-            {['월', '화', '수', '목', '금', '토', '일'].map((day, idx) => {
-              const heights = [60, 75, 45, 80, 65, 90, 70];
-              return (
-                <div key={day} className="flex-1 flex flex-col items-center">
-                  <div className="w-full bg-blue-600 rounded-t-lg hover:bg-blue-700 transition cursor-pointer" 
-                       style={{ height: `${heights[idx]}%` }}>
-                  </div>
-                  <span className="text-sm text-gray-600 mt-2">{day}</span>
-                </div>
-              );
-            })}
+          <div className="text-center py-12 text-gray-500">
+            <svg className="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+            <p>매출 데이터를 수집 중입니다.</p>
+            <p className="text-sm mt-2">주문이 생성되면 자동으로 표시됩니다.</p>
           </div>
         </div>
       </div>

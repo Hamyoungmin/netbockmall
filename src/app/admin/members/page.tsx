@@ -69,7 +69,11 @@ export default function AdminMembersPage() {
 
   const stats = [
     { label: "전체 회원", value: members.length, color: "blue" },
-    { label: "신규 회원 (이번 달)", value: "12", color: "green" },
+    { label: "신규 회원 (이번 달)", value: members.filter(m => {
+      const memberDate = new Date(m.created_at);
+      const now = new Date();
+      return memberDate.getMonth() === now.getMonth() && memberDate.getFullYear() === now.getFullYear();
+    }).length, color: "green" },
     { label: "VIP 회원", value: members.filter(m => m.grade === "VIP" || m.grade === "VVIP").length, color: "purple" },
     { label: "정지된 계정", value: members.filter(m => m.status === "정지").length, color: "red" },
   ];

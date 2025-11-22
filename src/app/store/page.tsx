@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Footer from "@/components/Footer";
+import ChatWidget from "@/components/ChatWidget";
 
 export default function StorePage() {
   return (
@@ -156,6 +157,9 @@ export default function StorePage() {
       </div>
 
       <Footer />
+      
+      {/* 실시간 채팅 위젯 */}
+      <ChatWidget />
     </div>
   );
 }
